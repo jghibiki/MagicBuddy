@@ -1,15 +1,16 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+angular.module('magicBuddy', [
   'ngRoute',
   'btford.socket-io',
-  'myApp.view1',
-  'myApp.view2',
-  'myApp.version'
+  'magicBuddy.mainMenu',
+  'magicBuddy.deck',
+  'magicBuddy.collection',
+  'magicBuddy.version'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/'});
 }]).
 factory('socket', function (socketFactory) {
     return socketFactory({

@@ -10,7 +10,9 @@
   list-style: none;
   border-bottom: 0.1em solid black;
   margin-bottom: 2em;
-  padding: 0 0 0.5em;
+  border-top: 0.1em solid black;
+  margin-top: 2em;
+  padding: 0.5em 0 0.5em;
 }
 
 .menu:before {
