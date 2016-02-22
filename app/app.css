@@ -1,5 +1,11 @@
 /* app css stylesheet */
 
+.header {
+    /*background-color: #046C8F;*/
+    background-color: #FFF;
+    color: #000;
+}
+
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
