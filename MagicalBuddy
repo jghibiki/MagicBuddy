@@ -14,7 +14,22 @@ opts = loadOptions();
 
 if(opts.debug) console.log("Running in debug mode.");
 
-cards(opts, finishedPreload);
+
+var models = {}
+
+cards(opts, function(cards){
+    models["cards"] = cards;
+
+    loadDecks(opts, models["cards"],  function(decks){
+        models["decks"] = decks;
+
+        loadCollection(opts, models["cards"], function(collection){
+            models["collection"] = collection;
+
+            finisyedPreload();
+        }
+    }
+});
 
 function finishedPreload(){
     console.log("Starting web server.");
@@ -37,6 +52,14 @@ function loadOptions(){
     }
 
     return opts;
+}
+
+function loadDecks(opts, cards, callback){
+    require('./lib/decks.js')(opts, cards, callback);
+}
+
+function loadCollection(opts, cards, callback){
+    require('./lib/collection.js')(opts, cards, callback);
 }
 
 function ready(opts){
