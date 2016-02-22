@@ -34,6 +34,9 @@ io.on("connection", function(socket){
 
 
 
-if(!argv.headless) open("http://" + url + ":" + port)
+if(argv.headed){
+    console.log("Launching browser."); 
+    open("http://" + url + ":" + port)
+}
 
 
