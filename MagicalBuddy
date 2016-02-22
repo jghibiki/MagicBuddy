@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+var argv = require('yargs').argv;
+var open = require('open');
+var express = require('express');
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var bodyParser = require("body-parser");
+
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+var debug = argv.debug || true;
+var host = argv.host || "localhost"
+var port = argv.port || 8000;
+
+//if the host is 0.0.0.0 we should set the url to localhost
+var url = (argv.host !== undefined && argv.host!=="0.0.0.0")?argv.host:"localhost"
+
+
+server.listen(port, host);
+console.log("  __  __             _        __  _  __   ____            _     _        \n |  \\/  |           (_)      / /\\| |/\\ \\ |  _ \\          | |   | |       \n | \\  / | __ _  __ _ _  ___ / /\\ ` ' /\\ \\| |_) |_   _  __| | __| |_   _  \n | |\\/| |/ _` |/ _` | |/ __< <|_     _|> >  _ <| | | |/ _` |/ _` | | | | \n | |  | | (_| | (_| | | (__ \\ \\/ , . \\/ /| |_) | |_| | (_| | (_| | |_| | \n |_|  |_|\\__,_|\\__, |_|\\___| \\_\\/|_|\\/_/ |____/ \\__,_|\\__,_|\\__,_|\\__, | \n                __/ |                                              __/ | \n               |___/                                              |___/  ");
+if(debug) console.log("Running in debug mode.");
+console.log("Listening on port 8000.")
+app.use(express.static("./app"))
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+
+io.on("connection", function(socket){
+    
+});
+
+
+
+if(!argv.headless) open("http://" + url + ":" + port)
+
+
