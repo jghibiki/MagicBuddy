@@ -13,8 +13,8 @@ config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
 }]).
 factory('socket', function (socketFactory) {
-    return socketFactory({
-      ioSocket: io.connect(':8000')
-    });
+    var mySocket = socketFactory();
+    mySocket.forward('error');
+    return mySocket;
 });
 

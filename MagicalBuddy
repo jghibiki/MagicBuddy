@@ -26,20 +26,21 @@ cards(opts, function(cards){
         loadCollection(opts, models["cards"], function(collection){
             models["collection"] = collection;
 
-            finisyedPreload();
-        }
-    }
+            finishedPreload();
+        });
+    });
 });
 
 function finishedPreload(){
     console.log("Starting web server.");
-    server(opts); 
+    server(opts, models); 
     ready(opts);
 }
 
 function loadOptions(){
 
     var opts = {
+        version: "0.1",
         debug: argv.debug || true,
         host: argv.host || "localhost",
         port: argv.port || 8000,
@@ -48,7 +49,10 @@ function loadOptions(){
         url: (argv.host !== undefined && argv.host!=="0.0.0.0")?argv.host:"localhost",
 
         // should we open a browser
-        headeed: argv.headed || false
+        headeed: argv.headed || false,
+        data: argv.data || "./data",
+        cache: argv.cache || "./cache"
+
     }
 
     return opts;

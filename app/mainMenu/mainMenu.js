@@ -9,6 +9,6 @@ angular.module('magicBuddy.mainMenu', ['ngRoute', angularDragula(angular)])
   });
 }])
 
-.controller('MainMenuCtrl', [function() {
+.controller('MainMenuCtrl', ["$scope", "socket", function($scope, socket) {
 
 }]);

@@ -9,6 +9,13 @@ angular.module('magicBuddy.collection', ['ngRoute'])
   });
 }])
 
-.controller('CollectionCtrl', [function() {
+.controller('CollectionCtrl', ["$scope", "socket", function($scope, socket) {
+    $scope.collection = [];
 
+    // Get the collection
+    socket.on("collection:get::response", function(resp){
+        $scope.collection = resp;
+    });
+    socket.emit("collection:get");
+    
 }]);
