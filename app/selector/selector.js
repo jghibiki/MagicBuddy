@@ -1,21 +1,27 @@
 'use strict';
 
 angular.module('magicBuddy.selector', [])
-.controller('SelectorCtrl', ["$scope","$parentScope", "socket", "collectionManager", function($scope, $parentScope, socket, collectionManager) {
+.controller('SelectorCtrl', ["$scope", "socket", "collectionManager", "cardManager", function($scope, socket, collectionManager, cardManager) {
+
+    // ensure that scope has a type field from parent
+    if($scope.type === undefined){
+        throw new Error("Scope missing 'type' selector will not know which mode to be in.");
+    }
 
     $scope.searchQuery = null;
-    $scope.searchResults = [];
 
-    socket.on("cards:search::response", function(resp){
-        $scope.searchResults = resp;
-    });
 
     $scope.search = function(){
-            
-        socket.emit("cards:search", $scope.searchQuery);
+        cardManager.search($scope.searchQuery);
     };
 
+    $scope.getSearchResults = function(){
+        return cardManager.searchResults;
+    }
+
     $scope.add = function(cardId){
-        // ???
+        if($scope.type === "collection"){
+            collectionManager.add(cardManager.searchResults[cardId]);
+        }
     }
 }]);

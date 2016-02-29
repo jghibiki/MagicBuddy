@@ -10,9 +10,14 @@ angular.module('magicBuddy.collection', ['ngRoute'])
 }])
 
 .controller('CollectionCtrl', ["$scope", "socket", "collectionManager", function($scope, socket, collectionManager) {
+    $scope.type = "collection";
 
     //allows binding the collection
     $scope.getCollection = function(){
         return collectionManager.collection;
     };
+
+    $scope.saveCollection = function(){
+        collectionManager.save();
+    }
 }]);

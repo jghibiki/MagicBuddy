@@ -51,8 +51,10 @@ function loadOptions(){
         // should we open a browser
         headeed: argv.headed || false,
         data: argv.data || "./data",
-        cache: argv.cache || "./cache"
+        cache: argv.cache || "./cache",
 
+        //how often we should make a checkpoint automatically
+        checkpoint: argv.checkpoint || 60
     }
 
     return opts;
