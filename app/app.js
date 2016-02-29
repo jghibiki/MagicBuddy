@@ -7,6 +7,8 @@ angular.module('magicBuddy', [
   'magicBuddy.mainMenu',
   'magicBuddy.deck',
   'magicBuddy.collection',
+  'magicBuddy.selector',
+  'magicBuddy.services',
   'magicBuddy.version'
 ]).
 config(['$routeProvider', function($routeProvider) {

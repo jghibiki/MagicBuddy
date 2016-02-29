@@ -41,7 +41,7 @@ function loadOptions(){
 
     var opts = {
         version: "0.1",
-        debug: argv.debug || true,
+        debug: argv.debug || false,
         host: argv.host || "localhost",
         port: argv.port || 8000,
         

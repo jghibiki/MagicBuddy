@@ -33,12 +33,14 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
+    "fuzzy": "^0.1.1",
     "jsonfile": "^2.2.3",
+    "node-uuid": "~1.4.7",
     "open": "0.0.5",
     "request": "^2.69.0",
     "socket.io": "^1.4.5",
     "tutor": "^0.7.1",
-    "yargs": "^4.1.0",
-    "node-uuid": "~1.4.7"
+    "unzip": "^0.1.11",
+    "yargs": "^4.1.0"
   }
 }
