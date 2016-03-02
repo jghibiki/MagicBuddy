@@ -12,7 +12,7 @@
         <div class="pure-u-2-3" >
             <b>My Collection:</b>
             <div style="border-style: solid; border-width: 1px 1px 1px 1px; padding: 5px;">
-                <div ng-repeat="card in getCollection() track by $index">{{ card.name }}</div>
+                <div ng-repeat="card in getCollection()">{{ card.name }} x{{card.count}}</div>
             </div>
         </div>
     </div>
