@@ -5,7 +5,7 @@ var mbServices = angular.module('magicBuddy.services', []);
 mbServices.factory("collectionManager", ["socket", function(socket){
     var collectionManager = {};
     collectionManager.collection = [];
-    collectionManager.listeners = [];
+    collectionManager.pretty = [];
 
     collectionManager.add = function(card){
         socket.emit("collection:add", card);
@@ -25,24 +25,31 @@ mbServices.factory("collectionManager", ["socket", function(socket){
         socket.emit("collection:save");
     };
 
-    collectionManager.addListener = function(name, listener){
-        for(var i=0; i<collectionManager.listeners.length; ++i){
-            var listenerPair = collectionManager.listeners[i];
-            if(listenerPair.name === name && listenerPair.listener == listener){
-                return; 
-            }
-        }
-        
-        collectionManager.listeners.push({
-            name: name,
-            listener: listener
-        });
+    collectionManager.bulkImport = function(cards){
+        socket.emit("collection:import", cards);
+        collectionManager.get();
     };
 
 
     //register listeners
     socket.on("collection:get::response", function(resp){
         collectionManager.collection = resp;
+
+
+        //build pretty collection
+        var cardCounts = {};
+        collectionManager.collection.forEach(function(x){ cardCounts[x.name] = (cardCounts[x.name] || 0)+1; });
+        var seen = {};
+        var unique = collectionManager.collection.filter(function(item){
+            return seen.hasOwnProperty(item.name) ? false : (seen[item.name] = true);
+        });
+
+        for(var idx in unique){
+            unique[idx].count = cardCounts[unique[idx].name];                 
+        }
+        console.log(unique);
+        collectionManager.pretty = unique;
+
     });
 
 

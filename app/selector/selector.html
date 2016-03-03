@@ -1,4 +1,6 @@
 <div ng-controller="SelectorCtrl">
     <label> Search Cards: <input type="text" ng-model="searchQuery" ng-change="search()" ng-model-optsions="{debounce: 2000}"></label>
-    <div ng-repeat="card in getSearchResults() track by $index | limitTo:10"><a href="" ng-click="$parent.add($index)">{{card.name}}</a></div>
+    <div dragula='"bag-one"'  dragula-scope="$parent">
+        <div ng-repeat="card in getSearchResults() track by $index | limitTo:10" class="you-may-copy-us" dragula-scope="$parent" ng-click="$parent.add($index)">{{card.name}}</div>
+    </div>
 </div>

@@ -9,26 +9,76 @@ angular.module('magicBuddy.collection', ['ngRoute'])
   });
 }])
 
-.controller('CollectionCtrl', ["$scope", "socket", "collectionManager", function($scope, socket, collectionManager) {
+.controller('CollectionCtrl', ["$scope", "socket", "dragulaService", "collectionManager", "cardManager", function($scope, socket, dragulaService, collectionManager, cardManager) {
     $scope.type = "collection";
+    $scope.importCards = "";
 
-    //allows binding the collection
-    $scope.getCollection = function(){
-        var cardCounts = {};
-        collectionManager.collection.forEach(function(x){ cardCounts[x.name] = (cardCounts[x.name] || 0)+1; });
-        var seen = {};
-        var unique = collectionManager.collection.filter(function(item){
-            return seen.hasOwnProperty(item.name) ? false : (seen[item.name] = true);
-        });
+    dragulaService.options($scope, 'bag-one', {
+        copy: function (el, source) {
+          return el.className.indexOf('you-may-copy-us') > -1;
+        },
+        copySortSource: false,
+        moves: function(el, source, handle, sibling){
+            return (el.className.indexOf("you-may-copy-us") > -1) || el.className.indexOf("you-may-remove-us") > -1;
+            
+        },
+        accepts: function(el, target, source, sibling){
+            if(el.className.indexOf("you-may-copy-us") > -1 && target.className.indexOf("copy-target") > -1){
+                return true;
+            }
+            else if (el.className.indexOf("you-may-remove-us") > -1 && target.className.indexOf("remove-target") > -1){
+                return true;
+            }
+            else if (source === target){
+                return true;
+            }
+            else{
+                return false;
+            }
+        },
+        revertOnSpill: true,
+    });
 
-        for(var idx in unique){
-            unique[idx].count = cardCounts[unique[idx].name];                 
+    $scope.collectionManager = collectionManager;
+
+
+
+    $scope.$on("bag-one.drop", function(e, el, target, source, sibling){
+        if(el.hasClass("you-may-copy-us") && target.hasClass("copy-target")){
+            var newCard = el.text();
+            
+            for(var i=0; i<cardManager.searchResults.length; i++){
+                var card = cardManager.searchResults[i];
+                if(card.name === newCard){
+                    collectionManager.add(card);
+                    break;
+                }
+            }
+            el.remove();
         }
-        return unique;
-    };
+        else if(el.hasClass("you-may-remove-us") && target.hasClass("remove-target") ){
+            var str = el.text();
+            var count = str.substr(0, str.indexOf(' '));
+            var newCard = str.substr(str.indexOf(' ')+1);
+            
+            for(var i=0; i<collectionManager.collection.length; i++){
+                var card = collectionManager.collection[i];
+                if(card.name === newCard){
+                    collectionManager.remove(card);
+                    break;
+                }
+            }
+            el.remove();
+        }
+
+    });
 
     $scope.saveCollection = function(){
         collectionManager.save();
+    }
+
+    $scope.bulkImport = function(){
+        collectionManager.bulkImport($scope.importCards);
     }
 
 }]);

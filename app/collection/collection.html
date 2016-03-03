@@ -11,9 +11,24 @@
         </div>
         <div class="pure-u-2-3" >
             <b>My Collection:</b>
-            <div style="border-style: solid; border-width: 1px 1px 1px 1px; padding: 5px;">
-                <div ng-repeat="card in getCollection()">{{ card.name }} x{{card.count}}</div>
+            <div dragula='"bag-one"' class="copy-target"  style="border-style: solid; border-width: 1px 1px 1px 1px; padding: 5px; overflow-y: scroll; height: 300px;; ">
+                <div ng-repeat="card in collectionManager.pretty" dragula-scope="$parent" class="you-may-remove-us" >{{card.count}} {{ card.name }}</div>
+                <p ng-if="collectionManager.pretty.length === 0">Drop cards here to add them to your collection.</p>
+            </div>
+            <div dragula='"bag-one"' class="remove-target" style="border-style: solid; border-width: 0px 1px 1px 1px; padding: 5px;">
+                <p>Drag cards here to delete them.</p>
+            </div>
+            <br>
+            <b>Bulk Import:</b>
+            <div> 
+                <div>
+                    <textarea ng-model="importCards"></textarea> 
+                </div>
+                <div>
+                    <button ng-click="bulkImport()">Import</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
