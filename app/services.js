@@ -47,7 +47,6 @@ mbServices.factory("collectionManager", ["socket", function(socket){
         for(var idx in unique){
             unique[idx].count = cardCounts[unique[idx].name];                 
         }
-        console.log(unique);
         collectionManager.pretty = unique;
 
     });
