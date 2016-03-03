@@ -79,6 +79,7 @@ angular.module('magicBuddy.collection', ['ngRoute'])
 
     $scope.bulkImport = function(){
         collectionManager.bulkImport($scope.importCards);
+        $scope.importCards = "";
     }
 
 }]);

@@ -19,9 +19,25 @@ angular.module('magicBuddy.selector', [])
         return cardManager.searchResults;
     }
 
-    $scope.add = function(cardId){
+    $scope.add = function(cardId, $event){
         if($scope.type === "collection"){
-            collectionManager.add(cardManager.searchResults[cardId]);
+            if(cardId !== null && cardId !== undefined){
+                if($event.shiftKey){
+                    //Add 4 if shift is held
+                    collectionManager.add(cardManager.searchResults[cardId]);
+                    collectionManager.add(cardManager.searchResults[cardId]);
+                    collectionManager.add(cardManager.searchResults[cardId]);
+                    collectionManager.add(cardManager.searchResults[cardId]);
+                }
+                else{
+                    collectionManager.add(cardManager.searchResults[cardId]);
+                }
+            }
+            else{
+                if(cardManager.searchResults.length > 0){
+                    collectionManager.add(cardManager.searchResults[0]);
+                }
+            }
         }
     }
 }]);
