@@ -39,5 +39,20 @@ angular.module('magicBuddy.selector', [])
                 }
             }
         }
+        else if($scope.type === "type"){
+            if(cardId !== null && cardId !== undefined){
+                if($event.shiftKey){
+                    //Add 4 if shift is held
+                }
+                else{
+                    //Add one
+                }
+            }
+            else{
+                if(cardManager.searchResults.length > 0){
+                    //add search results index 0
+                }
+            }
+        }
     }
 }]);

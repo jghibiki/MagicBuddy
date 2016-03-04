@@ -85,3 +85,84 @@ mbServices.factory("cardManager", ["socket", function(socket){
     
     return cardManager;
 }]);
+
+mbServices.factory("deckManager", ["socket", function(socket){
+    var deckManager = {};
+    deckManager.deck = [];
+    deckManager.names = [];
+    deckManager.name = "";
+    deckManager.path = "/";
+
+    deckManager.pretty = [];
+
+    /* API */
+
+    deckManager.add = function(card){
+        socket.emit("collection:add", {
+            name: deckManager.name,
+            card: card
+        });
+        deckManager.get();
+    };
+
+    deckManager.remove = function(card){
+        socket.emit("collection:remove", {
+            card: card,
+            name: deckManager.name
+        });
+        deckManager.get();
+    };
+
+    deckManager.get = function(name){
+        if(name === undefined || name === null){
+            socket.emit("collection:get:all", deckManager.path);
+        }
+        else{
+            socket.emit("collection:get:one", {
+                name: name,
+                path: deckManager.path
+            });
+        }
+    };
+
+    deckManager.save = function(){
+        socket.emit("collection:save");
+    };
+
+    deckManager.bulkImport = function(cards){
+        socket.emit("collection:import", cards);
+        collectionManager.get();
+    };
+
+    /* Listeners */
+    //register listeners
+    
+    socket.on("collection:get:one::response", function(resp){
+
+        deckManager.deck= resp.deck;
+        deckManager.name = resp.name;
+
+        //build pretty collection
+        var cardCounts = {};
+        deckManager.deck.forEach(function(x){ cardCounts[x.name] = (cardCounts[x.name] || 0)+1; });
+        var seen = {};
+        var unique = deckManager.deck.filter(function(item){
+            return seen.hasOwnProperty(item.name) ? false : (seen[item.name] = true);
+        });
+
+        for(var idx in unique){
+            unique[idx].count = cardCounts[unique[idx].name];                 
+        }
+        deckManager.pretty = unique;
+
+    });
+
+    socket.on("collection:get:all::response", function(resp){
+        deckManager.names = resp
+    });
+
+    deckManager.get();
+
+    return deckManager;
+
+}]);
