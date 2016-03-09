@@ -1,0 +1,22 @@
+<div ng-controller="ViewerCtrl">
+    <div ng-if="viewerCard !== null">
+        <div>
+            {{viewerCard.name}}
+        </div>
+        <div>
+            {{viewerCard.manaCost}}
+        </div>
+        <div>
+            Type:{{viewerCard.type}}
+        </div>
+        <div>
+            Types:<span ng-repeat="type in viewerCard.types">{{$first ? '' : $last ? ' and ' : ', '}}{{type}}</span>    
+        </div>
+        <div ng-if="viewCard.subtypes.length > 0">
+            Subtypes:<span ng-repeat="type in viewerCard.subtypes">{{$first ? '' : $last ? ' and ' : ', '}}{{type}}</span>    
+        </div>
+        <div>
+            {{viewerCard.text}}
+        </div>
+    </div>
+</div>

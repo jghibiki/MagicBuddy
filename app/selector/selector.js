@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('magicBuddy.selector', [])
-.controller('SelectorCtrl', ["$scope", "socket", "collectionManager", "cardManager", function($scope, socket, collectionManager, cardManager) {
+.controller('SelectorCtrl', ["$rootScope", "$scope", "socket", "collectionManager", "cardManager", function($rootScope, $scope, socket, collectionManager, cardManager) {
 
     // ensure that scope has a type field from parent
     if($scope.type === undefined){
@@ -39,5 +39,14 @@ angular.module('magicBuddy.selector', [])
                 }
             }
         }
+    }
+
+    $scope.viewCard = function(index){
+        var card = cardManager.searchResults[index];
+        $rootScope.$broadcast("viewer:showCard", card);
+    }
+
+    $scope.hideCard = function(){
+        $rootScope.$broadcast("viewer:hideCard");
     }
 }]);
