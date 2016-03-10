@@ -1,22 +1,31 @@
 <div ng-controller="ViewerCtrl">
+    <form>
+        <label><input type="radio"  ng-model="viewerMode" value="image">Image</label>
+        <label><input type="radio"  ng-model="viewerMode" value="text">Text</label>
+        <label><input type="radio"  ng-model="viewerMode" value="both">Both</label>
+    </form>
     <div ng-if="viewerCard !== null">
-        <div>
-            {{viewerCard.name}}
+        <div ng-if="showImage() || showBoth()">
+            <div>
+                <img ng-src="http://www.mtg-forum.de/db/karten/{{getUnderName()[0]}}/{{getUnderName()}}">
+            </div>
         </div>
-        <div>
-            {{viewerCard.manaCost}}
-        </div>
-        <div>
-            Type:{{viewerCard.type}}
-        </div>
-        <div>
-            Types:<span ng-repeat="type in viewerCard.types">{{$first ? '' : $last ? ' and ' : ', '}}{{type}}</span>    
-        </div>
-        <div ng-if="viewCard.subtypes.length > 0">
-            Subtypes:<span ng-repeat="type in viewerCard.subtypes">{{$first ? '' : $last ? ' and ' : ', '}}{{type}}</span>    
-        </div>
-        <div>
-            {{viewerCard.text}}
+        <div ng-if="showText() || showBoth()">
+            <div>
+                <b>{{viewerCard.name}}</b>
+            </div>
+            <div>
+                <span ng-repeat="symbol in manaSymbols() track by $index" class="mi mi-mana mi-{{symbol}}"></span>
+            </div>
+            <div>
+                Type: <span class="mi mi-{{viewerCard.type.toLowerCase()}}"></span>{{viewerCard.type}}
+            </div>
+            <div ng-if="viewCard.subtypes.length > 0">
+                Subtypes: <span ng-repeat="type in viewerCard.subtypes">{{$first ? '' : $last ? ' and ' : ', '}}{{type}}</span>    
+            </div>
+            <div>
+                Text: <span ng-bind-html="cardText()"></span>
+            </div>
         </div>
     </div>
 </div>
