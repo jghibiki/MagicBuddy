@@ -8,6 +8,7 @@ angular.module('magicBuddy', [
   'magicBuddy.deck',
   'magicBuddy.collection',
   'magicBuddy.selector',
+  'magicBuddy.viewer',
   'magicBuddy.services',
   'magicBuddy.version'
 ]).

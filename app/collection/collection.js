@@ -82,4 +82,13 @@ angular.module('magicBuddy.collection', ['ngRoute'])
         $scope.importCards = "";
     }
 
+    $scope.viewCard = function(index){
+        var card = collectionManager.pretty[index];
+        $scope.$broadcast("viewer:showCard", card);
+    }
+
+    $scope.hideCard = function(){
+        $scope.$broadcast("viewer:hideCard");
+    }
+
 }]);
