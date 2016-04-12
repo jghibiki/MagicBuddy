@@ -9,7 +9,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
   });
 }])
 
-.controller('DeckCtrl', ["$scope", "deckManager", "dragulaService", function($scope, deckManager, dragulaService) {
+.controller('DeckCtrl', ["$scope", "deckManager", "cardManager", "dragulaService", function($scope, deckManager, cardManager, dragulaService) {
     
     $scope.type = "deck";
     $scope.deckManager = deckManager;
@@ -76,5 +76,23 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
         deckManager.create($scope.newDeckName);
         $scope.newDeckName = "";
     };
+
+    $scope.saveDeck = function(){
+        deckManager.save();
+    };
+
+    $scope.loadDeck = function(name){
+        $scope.deckManager.name = name;
+        $scope.deckManager.get(name);
+    };
+
+    $scope.viewCard = function(index){
+        var card = collectionManager.pretty[index];
+        $scope.$broadcast("viewer:showCard", card);
+    }
+
+    $scope.hideCard = function(){
+        $scope.$broadcast("viewer:hideCard");
+    }
 
 }]);

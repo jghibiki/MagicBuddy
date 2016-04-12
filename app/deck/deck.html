@@ -1,10 +1,12 @@
 <div>
     <h1>Deck Manager:</h1>
-    <div ng-if="deckManager.name !== ''">
+    <div ng-show="deckManager.name !== ''">
         <div class="pure-g">
             <div class="pure-u-4-5"></div>
             <div class="pure-u-1-5">
                 <button ng-click="saveDeck()">Save Deck</button>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <button ng-click="deckManager.name = ''">Deck Selection</button>
             </div>
         </div>
         <div class="pure-g">
@@ -13,8 +15,8 @@
             <div class="pure-u-2-3" >
                 <b>My Deck:</b>
                 <div dragula='"bag-one"' class="copy-target"  style="border-style: solid; border-width: 1px 1px 1px 1px; padding: 5px; overflow-y: scroll; height: 300px;; ">
-                    <div ng-repeat="card in collectionManager.pretty" dragula-scope="$parent" class="you-may-remove-us" >{{card.count}} {{ card.name }}</div>
-                    <p ng-if="collectionManager.pretty.length === 0">Drop cards here to add them to your deck.</p>
+                    <div ng-repeat="card in deckManager.pretty" dragula-scope="$parent" class="you-may-remove-us" >{{card.count}} {{ card.name }}</div>
+                    <p ng-if="deckManager.pretty.length === 0">Drop cards here to add them to your deck.</p>
                 </div>
                 <div dragula='"bag-one"' class="remove-target" style="border-style: solid; border-width: 0px 1px 1px 1px; padding: 5px;">
                     <p>Drag cards here to delete them.</p>
@@ -32,10 +34,10 @@
             </div>
         </div>
     </div>
-    <div ng-if="deckManager.name ==''">
-        <div>Path: {{deckManager.path}}</div>
+    <div ng-show="deckManager.name ==''">
+        <h2>Decks:</h2>
         <div ng-repeat="deck in deckManager.names">
-            {{deck}}
+            <a href="" ng-click="loadDeck(deck)">{{deck}}</a>
         </div>
         <div>
             <div ng-if="deckManager.names.length === 0">

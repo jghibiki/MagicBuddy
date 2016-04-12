@@ -91,22 +91,21 @@ mbServices.factory("deckManager", ["socket", function(socket){
     deckManager.deck = [];
     deckManager.names = [];
     deckManager.name = "";
-    deckManager.path = "/";
 
     deckManager.pretty = [];
 
     /* API */
 
     deckManager.add = function(card){
-        socket.emit("collection:add", {
+        socket.emit("deck:add", {
             name: deckManager.name,
             card: card
         });
-        deckManager.get();
+        deckManager.get(deckManager.name);
     };
 
     deckManager.remove = function(card){
-        socket.emit("collection:remove", {
+        socket.emit("deck:remove", {
             card: card,
             name: deckManager.name
         });
@@ -115,32 +114,37 @@ mbServices.factory("deckManager", ["socket", function(socket){
 
     deckManager.get = function(name){
         if(name === undefined || name === null){
-            socket.emit("collection:get:all", deckManager.path);
+            socket.emit("deck:get:all");
         }
         else{
-            socket.emit("collection:get:one", {
-                name: name,
-                path: deckManager.path
-            });
+            socket.emit("deck:get:one", name);
+        }
+    };
+
+    deckManager.create = function(name){
+        if(name == undefined || name == null || name == ""){
+            throw Error("Deck name cannot be empty");
+        }
+        else{
+            socket.emit("deck:create", name);
         }
     };
 
     deckManager.save = function(){
-        socket.emit("collection:save");
+        socket.emit("deck:save");
     };
 
     deckManager.bulkImport = function(cards){
-        socket.emit("collection:import", cards);
+        socket.emit("deck:import", cards);
         collectionManager.get();
     };
 
     /* Listeners */
     //register listeners
     
-    socket.on("collection:get:one::response", function(resp){
+    socket.on("deck:get:one::response", function(resp){
 
-        deckManager.deck= resp.deck;
-        deckManager.name = resp.name;
+        deckManager.deck= resp;
 
         //build pretty collection
         var cardCounts = {};
@@ -157,8 +161,12 @@ mbServices.factory("deckManager", ["socket", function(socket){
 
     });
 
-    socket.on("collection:get:all::response", function(resp){
+    socket.on("deck:get:all::response", function(resp){
         deckManager.names = resp
+    });
+
+    socket.on("deck:create::response", function(){
+        socket.emit("deck:get:all");
     });
 
     deckManager.get();
