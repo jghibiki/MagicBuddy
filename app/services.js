@@ -131,7 +131,11 @@ mbServices.factory("deckManager", ["socket", function(socket){
     };
 
     deckManager.save = function(){
-        socket.emit("deck:save");
+        socket.emit("deck:save", deckManager.name);
+    };
+
+    deckManager.delete = function(){
+        socket.emit("deck:delete", deckManager.name);
     };
 
     deckManager.bulkImport = function(cards){

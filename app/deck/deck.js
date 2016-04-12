@@ -80,6 +80,12 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     $scope.saveDeck = function(){
         deckManager.save();
     };
+    
+    $scope.deleteDeck = function(){
+        deckManager.delete();
+        deckManager.name = "";
+        deckManager.get();
+    };
 
     $scope.loadDeck = function(name){
         $scope.deckManager.name = name;
@@ -87,12 +93,14 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     };
 
     $scope.viewCard = function(index){
-        var card = collectionManager.pretty[index];
+        var card = deckManager.pretty[index];
         $scope.$broadcast("viewer:showCard", card);
     }
 
     $scope.hideCard = function(){
         $scope.$broadcast("viewer:hideCard");
     }
+
+    deckManager.get();
 
 }]);
