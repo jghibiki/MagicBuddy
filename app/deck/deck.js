@@ -14,6 +14,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     $scope.type = "deck";
     $scope.deckManager = deckManager;
     $scope.newDeckName = "";
+    $scope.importCards = "";
 
     dragulaService.options($scope, 'bag-one', {
         copy: function (el, source) {
@@ -73,8 +74,13 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
 
 
     $scope.createDeck = function(){
-        deckManager.create($scope.newDeckName);
-        $scope.newDeckName = "";
+        if($scope.newDeckName.indexOf("/") != -1){
+            alert("Deck Names cannot contain '/'");
+        }
+        else{
+            deckManager.create($scope.newDeckName);
+            $scope.newDeckName = "";
+        }
     };
 
     $scope.saveDeck = function(){
@@ -103,4 +109,8 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
 
     deckManager.get();
 
+    $scope.bulkImport = function(){
+        deckManager.bulkImport($scope.importCards);
+        $scope.importCards = "";
+    }
 }]);

@@ -139,8 +139,10 @@ mbServices.factory("deckManager", ["socket", function(socket){
     };
 
     deckManager.bulkImport = function(cards){
-        socket.emit("deck:import", cards);
-        collectionManager.get();
+        socket.emit("deck:import", { 
+            "name": deckManager.name, 
+            "cards": cards
+        });
     };
 
     /* Listeners */
@@ -171,6 +173,10 @@ mbServices.factory("deckManager", ["socket", function(socket){
 
     socket.on("deck:create::response", function(){
         socket.emit("deck:get:all");
+    });
+
+    socket.on("deck:import::response", function(){
+        socket.emit("deck:get:one", deckManager.name);
     });
 
     deckManager.get();
