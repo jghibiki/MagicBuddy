@@ -40,7 +40,7 @@ function finishedPreload(){
 function loadOptions(){
 
     var opts = {
-        version: "0.1",
+        version: "0.2",
         debug: argv.debug || false,
         host: argv.host || "localhost",
         port: argv.port || 8000,
