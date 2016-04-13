@@ -10,7 +10,8 @@ angular.module('magicBuddy', [
   'magicBuddy.selector',
   'magicBuddy.viewer',
   'magicBuddy.services',
-  'magicBuddy.visualization',
+  'magicBuddy.manaCurve',
+  'magicBuddy.manaDistribution',
   'magicBuddy.version'
 ]).
 config(['$routeProvider', function($routeProvider) {

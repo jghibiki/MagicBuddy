@@ -1,5 +1,5 @@
 
-angular.module('magicBuddy.visualization', [])
+angular.module('magicBuddy.manaCurve', [])
 
 .directive("manaCurve", function(){
     
