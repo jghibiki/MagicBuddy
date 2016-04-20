@@ -25,6 +25,11 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
         probabilities: 4,
         notes: 5
     };
+    $scope.startingHand = {
+        deck: [],
+        cardCount: 7,
+        hand: [],
+    };
 
     dragulaService.options($scope, 'bag-one', {
         copy: function (el, source) {
@@ -131,7 +136,6 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
         $scope.$broadcast("viewer:hideCard");
     }
 
-    deckManager.get();
 
     $scope.bulkImport = function(){
         deckManager.bulkImport($scope.importCards);
@@ -142,13 +146,66 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
         $scope.showColorless = !($scope.showColorless);
     }
 
-    $scope.getUnderName = function(card){
-        return encodeURI(card.name
+    $scope.getUrl = function(card){
+        var url = encodeURI(card.name
                 .toLowerCase()
                 .replace(/ /g, "_")
                 .replace(/\'/g, "")
                 .replace(/-/g, "_")
                 .replace(/\?/g, "")
                 .replace(/:/g, "") + ".jpg");
+
+        return "http://www.mtg-forum.de/db/karten/" + url[0] + "/" + url;
     }
+
+
+    /* Starting Hand Functions */
+
+    $scope.newHand = function(){
+       $scope.startingHand.deck = deckManager.deck.slice(0);
+       $scope.startingHand.hand = [];
+       $scope.startingHand.cardCount = 7;
+        
+       for(var i=0; i<$scope.startingHand.cardCount; i++){
+           $scope.addCardToHand();
+        }
+
+       
+    }
+
+    $scope.addCardToHand = function(){
+        if($scope.startingHand.deck.length > 0){
+            var randomCard = $scope.startingHand.deck[ Math.floor( Math.random() * $scope.startingHand.deck.length )]
+
+            $scope.startingHand.hand.push(randomCard);
+
+            var index = $scope.startingHand.deck.indexOf(randomCard);
+            if(index > -1) $scope.startingHand.deck.splice(index, 1);
+        }
+        else{
+            alert("No more cards left in deck to add to hand. Try a new hand.");
+        }
+    }
+
+    $scope.mulligan = function(){
+
+       var cardCount = $scope.startingHand.hand.length - 1
+        if(cardCount > 0){
+           $scope.startingHand.deck = deckManager.deck.slice(0);
+           $scope.startingHand.hand = [];
+           $scope.startingHand.cardCount = cardCount;
+
+           for(var i=0; i<$scope.startingHand.cardCount; i++){
+               $scope.addCardToHand();
+            }
+        }
+        else{
+            alert("Cannot mulligan any more. Try a new hand.");
+        }
+    }
+
+
+    /* Initialization */
+    deckManager.get();
+
 }]);

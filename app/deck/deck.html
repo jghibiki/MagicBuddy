@@ -105,10 +105,18 @@
             Deck Statistics
         </div>
         <div ng-show="toolMode == toolModes.visualSpoiler">
-            <image ng-repeat="card in deckManager.deck" ng-src="http://www.mtg-forum.de/db/karten/{{getUnderName(card)[0]}}/{{getUnderName(card)}}" />
+            <image ng-repeat="card in deckManager.deck" ng-src="{{getUrl(card)}}" />
         </div>
         <div ng-show="toolMode == toolModes.startingHand">
-            Starting Hand
+            <div>
+                <button ng-click="newHand()">New Hand</button>
+                <button ng-click="addCardToHand()">Add Another Card</button>
+                <button ng-click="mulligan()">Mulligan</button>
+            </div>
+            <br>
+            <div>
+                <image ng-repeat="card in startingHand.hand" ng-src="{{ getUrl(card) }}" />
+            </div>
         </div>
         <div ng-show="toolMode == toolModes.probabilities">
             Probabilities
