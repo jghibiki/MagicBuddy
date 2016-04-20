@@ -16,6 +16,15 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     $scope.newDeckName = "";
     $scope.importCards = "";
     $scope.showColorless = false;
+    $scope.toolMode = 0;
+    $scope.toolModes = {
+        editor: 0,
+        deckStats: 1,
+        visualSpoiler: 2,
+        startingHand: 3,
+        probabilities: 4,
+        notes: 5
+    };
 
     dragulaService.options($scope, 'bag-one', {
         copy: function (el, source) {
@@ -131,5 +140,15 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
 
     $scope.toggleColorless = function(){
         $scope.showColorless = !($scope.showColorless);
+    }
+
+    $scope.getUnderName = function(card){
+        return encodeURI(card.name
+                .toLowerCase()
+                .replace(/ /g, "_")
+                .replace(/\'/g, "")
+                .replace(/-/g, "_")
+                .replace(/\?/g, "")
+                .replace(/:/g, "") + ".jpg");
     }
 }]);

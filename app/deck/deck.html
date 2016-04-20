@@ -2,60 +2,119 @@
     <h1>Deck Manager:</h1>
     <div ng-show="deckManager.name !== ''">
         <div class="pure-g">
-            <div class="pure-u-1-5"></div>
-            <div class="pure-u-2-5"></div>
+            <div class="pure-u-3-5">
+                <ul class="menu">
+                    <li>
+                        <a href="" ng-click="toolMode = toolModes.editor">Deck Editor</a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="toolMode = toolModes.deckStats">Deck Statistics</a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="toolMode = toolModes.visualSpoiler">Visual Spoiler</a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="toolMode = toolModes.startingHand">Starting Hand</a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="toolMode = toolModes.probabilities">Probabilities</a>
+                    </li>
+                    <li>
+                        <a href="" ng-click="toolMode = toolModes.notes">Notes</a>
+                    </li>
+                <ul>
+            
+            </div>
             <div class="pure-u-2-5">
-                <button ng-click="saveDeck()">Save Deck</button>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <button ng-click="deleteDeck()">Delete Deck</button>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <button ng-click="deckManager.name = ''">Deck Selection</button>
+                <ul class="menu">
+                    <li><a href="" ng-click="saveDeck()">Save Deck</a></li>
+                    <li><a href="" ng-click="deleteDeck()">Delete Deck</a></li>
+                    <li><a href="" ng-click="deckManager.name = ''">Deck Selection</a></li>
+                </ul>
             </div>
         </div>
-        <hr>
-		<div ng-show="deckManager.deck.length > 0" class="pure-g">
-			<div class="pure-u-1-4">
-				<mana-curve deck="deckManager.deck"></mana-curve>
-			</div>
-			<div class="pure-u-1-4" style="text-align: center;">
-                <mana-distribution deck="deckManager.deck" colorless="showColorless"></mana-distribution> 
-                <br>
-                <button ng-click="toggleColorless()">{{ showColorless?"Hide Colorless Mana":"Show Colorless Mana"}}</button>
-            </div>
-			<div class="pure-u-1-4">
-                <mana-source-distribution deck="deckManager.deck" colorless="showColorless"></mana-distribution> 
-            </div>
-            <div class="pure-u-1-4"></div>
-		</div>
-        <div ng-show="deckManager.deck.length == 0">
-            Add cards to generate graphs.
+        <div>
         </div>
-        <hr>
-        <br>
-        <div class="pure-g" style="border-style: solid; border-width: 1px">
-            <div class="pure-u-1-6" ng-include="'selector/selector.html'">
+        <div ng-show="toolMode == toolModes.editor">
+            <hr>
+            <div ng-show="deckManager.deck.length > 0" class="pure-g">
+                <div class="pure-u-1-4">
+                    <mana-curve deck="deckManager.deck"></mana-curve>
+                </div>
+                <div class="pure-u-1-4" style="text-align: center;">
+                    <mana-distribution deck="deckManager.deck" colorless="showColorless"></mana-distribution> 
+                    <br>
+                    <button ng-click="toggleColorless()">{{ showColorless?"Hide Colorless Mana":"Show Colorless Mana"}}</button>
+                </div>
+                <div class="pure-u-1-4">
+                    <mana-source-distribution deck="deckManager.deck" colorless="showColorless"></mana-distribution> 
+                </div>
+                <div class="pure-u-1-4"></div>
             </div>
-            <div class="pure-u-1-3" >
-                <div dragula='"bag-one"' class="copy-target"  style="border-style: solid; border-width: 1px 1px 1px 1px; padding: 5px; overflow-y: scroll; height: 300px;; ">
-                    <div ng-repeat="card in deckManager.pretty" dragula-scope="$parent" class="you-may-remove-us" ng-mouseover="viewCard($index)" ng-mouseleave="hideCard()" style="cursor: pointer">{{card.count}} {{ card.name }}</div>
-                    <p ng-if="deckManager.pretty.length === 0">Drop cards here to add them to your deck.</p>
+            <div ng-show="deckManager.deck.length == 0">
+                Add cards to generate graphs.
+            </div>
+            <hr>
+            <br>
+            <div class="pure-g" style="border-style: solid; border-width: 1px">
+                <div class="pure-u-1-6" ng-include="'selector/selector.html'">
                 </div>
-                <div dragula='"bag-one"' class="remove-target" style="border-style: solid; border-width: 0px 1px 1px 1px; padding: 5px;">
-                    <p>Drag cards here to delete them.</p>
-                </div>
-                <br>
-                <b>Bulk Import:</b>
-                <div> 
-                    <div>
-                        <textarea ng-model="importCards"></textarea> 
+                <div class="pure-u-1-3" >
+                    <div dragula='"bag-one"' class="copy-target"  style="border-style: solid; border-width: 1px 1px 1px 1px; padding: 5px; overflow-y: scroll; height: 300px;; ">
+                        <div ng-repeat="card in deckManager.pretty" dragula-scope="$parent" class="you-may-remove-us" ng-mouseover="viewCard($index)" ng-mouseleave="hideCard()" style="cursor: pointer">{{card.count}} {{ card.name }}</div>
+                        <p ng-if="deckManager.pretty.length === 0">Drop cards here to add them to your deck.</p>
                     </div>
-                    <div>
-                        <button ng-click="bulkImport()">Import</button>
+                    <div dragula='"bag-one"' class="remove-target" style="border-style: solid; border-width: 0px 1px 1px 1px; padding: 5px;">
+                        <p>Drag cards here to delete them.</p>
+                    </div>
+                    <br>
+                    <b>Bulk Import:</b>
+                    <div> 
+                        <div>
+                            <textarea ng-model="importCards"></textarea> 
+                        </div>
+                        <div>
+                            <button ng-click="bulkImport()">Import</button>
+                        </div>
                     </div>
                 </div>
+                <div class="pure-u-1-2" ng-include="'viewer/viewer.html'">
+                </div>
             </div>
-            <div class="pure-u-1-2" ng-include="'viewer/viewer.html'">
+        </div>
+        <div ng-show="toolMode == toolModes.deckStats">
+            <hr>
+            <div ng-show="deckManager.deck.length > 0" class="pure-g">
+                <div class="pure-u-1-4">
+                    <mana-curve deck="deckManager.deck"></mana-curve>
+                </div>
+                <div class="pure-u-1-4" style="text-align: center;">
+                    <mana-distribution deck="deckManager.deck" colorless="showColorless"></mana-distribution> 
+                    <br>
+                    <button ng-click="toggleColorless()">{{ showColorless?"Hide Colorless Mana":"Show Colorless Mana"}}</button>
+                </div>
+                <div class="pure-u-1-4">
+                    <mana-source-distribution deck="deckManager.deck" colorless="showColorless"></mana-distribution> 
+                </div>
+                <div class="pure-u-1-4"></div>
             </div>
+            <div ng-show="deckManager.deck.length == 0">
+                Add cards to generate graphs.
+            </div>
+            <hr>
+            Deck Statistics
+        </div>
+        <div ng-show="toolMode == toolModes.visualSpoiler">
+            <image ng-repeat="card in deckManager.deck" ng-src="http://www.mtg-forum.de/db/karten/{{getUnderName(card)[0]}}/{{getUnderName(card)}}" />
+        </div>
+        <div ng-show="toolMode == toolModes.startingHand">
+            Starting Hand
+        </div>
+        <div ng-show="toolMode == toolModes.probabilities">
+            Probabilities
+        </div>
+        <div ng-show="toolMode == toolModes.notes">
+            Notes
         </div>
     </div>
     <div ng-show="deckManager.name ==''">
