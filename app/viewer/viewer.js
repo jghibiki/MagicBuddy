@@ -28,7 +28,12 @@ angular.module('magicBuddy.viewer', [angularDragula(angular)])
     }
 
     $scope.getUnderName = function(){
-        return encodeURI($scope.viewerCard.name.toLowerCase().replace(/ /g, "_").replace(/\'/g, "").replace(/-/g, "_") + ".jpg");
+        return encodeURI($scope.viewerCard.name
+                .toLowerCase()
+                .replace(/ /g, "_")
+                .replace(/\'/g, "")
+                .replace(/-/g, "_")
+                .replace(/:/g, "") + ".jpg");
     }
 
     $scope.showImage = function(){
