@@ -6,7 +6,7 @@ angular.module('magicBuddy.viewer', [angularDragula(angular)])
 
     $scope.viewerCard = null;
     $scope.symbolRe = /[^{}]+(?=\})/g;
-    $scope.viewerMode = "image";
+    $scope.viewerMode = "both";
 
     
     $scope.$on("viewer:showCard", function(e, card){
