@@ -49,7 +49,15 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
             for(var i=0; i<cardManager.searchResults.length; i++){
                 var card = cardManager.searchResults[i];
                 if(card.name === newCard){
-                    deckManager.add(card);
+                    if(event.shiftKey){
+                        deckManager.add(card);
+                        deckManager.add(card);
+                        deckManager.add(card);
+                        deckManager.add(card);
+                    }
+                    else{
+                        deckManager.add(card);
+                    }
                     break;
                 }
             }
@@ -63,7 +71,15 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
             for(var i=0; i<deckManager.deck.length; i++){
                 var card = deckManager.deck[i];
                 if(card.name === newCard){
-                    deckManager.remove(card);
+                    if(event.shiftKey){
+                        deckManager.remove(card);
+                        deckManager.remove(card);
+                        deckManager.remove(card);
+                        deckManager.remove(card);
+                    }
+                    else{
+                        deckManager.remove(card);
+                    }
                     break;
                 }
             }
@@ -83,8 +99,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
         }
     };
 
-    $scope.saveDeck = function(){
-        deckManager.save();
+    $scope.saveDeck = function(){ deckManager.save();
     };
     
     $scope.deleteDeck = function(){
