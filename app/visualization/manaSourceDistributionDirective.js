@@ -1,7 +1,7 @@
 
-angular.module('magicBuddy.manaDistribution', [])
+angular.module('magicBuddy.manaSourceDistribution', [])
 
-.directive("manaDistribution", function(){
+.directive("manaSourceDistribution", function(){
     
     var margin = 25;
     var width = 200;
@@ -11,8 +11,7 @@ angular.module('magicBuddy.manaDistribution', [])
     return {
         restrict: 'E',
         scope: {
-            deck: '=',
-            colorless: '='
+            deck: '='
         },
         link: function(scope, element, attrs){
 			// set up initial svg object
@@ -23,7 +22,7 @@ angular.module('magicBuddy.manaDistribution', [])
               .append("g")
                 .attr("transform", "translate(" + (width+(margin*2)) / 2 + "," + (height+(margin*2)) / 2 + ")");
 
-			scope.$watchGroup(["deck", "colorless"], function (newVal, oldVal, scope) {
+			scope.$watch("deck", function (newVal, oldVal, scope) {
 
 				// clear the elements inside of the directive
 				vis.selectAll('*').remove();
@@ -33,8 +32,7 @@ angular.module('magicBuddy.manaDistribution', [])
 				  return;
 				}
 
-                var deck = newVal[0];
-                var showColorless = newVal[1];
+                var deck = newVal;
 
                 var colors = {
                     "Blue": 0,
@@ -42,24 +40,27 @@ angular.module('magicBuddy.manaDistribution', [])
                     "Green": 0,
                     "Black": 0,
                     "White": 0,
-                    "Colorless": 0 
                 };
 
                 for(var i=0; i<deck.length; i++){
                     var card = deck[i];
 
-                    if("manaCost" in card){
-                        if(card.manaCost.match(/{U}/g)) colors["Blue"] = colors["Blue"] + card.manaCost.match(/{U}/g).length;
-                        if(card.manaCost.match(/{R}/g)) colors["Red"] = colors["Red"] + card.manaCost.match(/{R}/g).length;
-                        if(card.manaCost.match(/{G}/g)) colors["Green"] = colors["Green"] + card.manaCost.match(/{G}/g).length;
-                        if(card.manaCost.match(/{B}/g)) colors["Black"] = colors["Black"] + card.manaCost.match(/{B}/g).length;
-                        if(card.manaCost.match(/{W}/g)) colors["White"] = colors["White"] + card.manaCost.match(/{W}/g).length;
-
-                        if(showColorless){
-                            if(card.manaCost.match(/{[0-9]}/g)){
-                                card.manaCost.match(/{[0-9]}/g).forEach(function(a){
-                                    colors["Colorless"] = colors["Colorless"] + parseInt(a.replace("{","").replace("}",""));
-                                });
+                    if(card.types.indexOf("Land") > -1){
+                        if("subtypes" in card){
+                            if(card.subtypes.indexOf("Island") > -1){
+                                colors["Blue"] = colors["Blue"] + 1;
+                            }
+                            else if(card.subtypes.indexOf("Mountain") > -1){
+                                colors["Red"] = colors["Red"] + 1;
+                            }
+                            else if(card.subtypes.indexOf("Forest") > -1){
+                                colors["Green"] = colors["Green"] + 1;
+                            }
+                            else if(card.subtypes.indexOf("Swamp") > -1){
+                                colors["Black"] = colors["Black"] + 1;
+                            }
+                            else if(card.subtypes.indexOf("Plains") > -1){
+                                colors["White"] = colors["White"] + 1;
                             }
                         }
                     }
@@ -67,14 +68,13 @@ angular.module('magicBuddy.manaDistribution', [])
                 }
                 
                 var data = [];
-                var total = colors["Blue"] + colors["Red"] + colors["Green"] + colors["Black"] + colors ["White"] + colors["Colorless"];
+                var total = colors["Blue"] + colors["Red"] + colors["Green"] + colors["Black"] + colors ["White"];
                 var percents = {
                     "Blue": colors["Blue"] / total,
                     "Red": colors["Red"] / total, 
                     "Green": colors["Green"] / total,
                     "Black": colors["Black"] / total,
                     "White": colors["White"] / total,
-                    "Colorless": colors["Colorless"] / total 
                 }
                 for(var i=0; i<Object.keys(colors).length; i++){
                     var key = Object.keys(colors)[i];
@@ -111,7 +111,6 @@ angular.module('magicBuddy.manaDistribution', [])
                           if(color == "Green") return "#73D651";
                           if(color == "Black") return "#777";
                           if(color == "White") return "#FFE591";
-                          if(color == "Colorless") return "#C4C4C4";
                       });
 
                 g.append("text")
@@ -135,7 +134,7 @@ angular.module('magicBuddy.manaDistribution', [])
 					.attr("text-anchor", "middle")  
 					.style("font-size", "16px") 
 					.style("text-decoration", "underline")  
-					.text("Mana Distribution");
+					.text("Mana Source Distribution");
 			});
         }
     }

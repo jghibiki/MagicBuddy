@@ -15,6 +15,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     $scope.deckManager = deckManager;
     $scope.newDeckName = "";
     $scope.importCards = "";
+    $scope.showColorless = false;
 
     dragulaService.options($scope, 'bag-one', {
         copy: function (el, source) {
@@ -23,7 +24,6 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
         copySortSource: false,
         moves: function(el, source, handle, sibling){
             return (el.className.indexOf("you-may-copy-us") > -1) || el.className.indexOf("you-may-remove-us") > -1;
-            
         },
         accepts: function(el, target, source, sibling){
             if(el.className.indexOf("you-may-copy-us") > -1 && target.className.indexOf("copy-target") > -1){
@@ -112,5 +112,9 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     $scope.bulkImport = function(){
         deckManager.bulkImport($scope.importCards);
         $scope.importCards = "";
+    }
+
+    $scope.toggleColorless = function(){
+        $scope.showColorless = !($scope.showColorless);
     }
 }]);

@@ -4,7 +4,7 @@ angular.module('magicBuddy.manaCurve', [])
 .directive("manaCurve", function(){
     
     var margin = 30;
-    var width = 400;
+    var width = 300;
     var height = 150;
     var color = d3.interpolateRgb("#f77", "#77f");
 

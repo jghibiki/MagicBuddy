@@ -12,6 +12,7 @@ angular.module('magicBuddy', [
   'magicBuddy.services',
   'magicBuddy.manaCurve',
   'magicBuddy.manaDistribution',
+  'magicBuddy.manaSourceDistribution',
   'magicBuddy.version'
 ]).
 config(['$routeProvider', function($routeProvider) {
