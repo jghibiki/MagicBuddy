@@ -33,6 +33,7 @@ angular.module('magicBuddy.viewer', [angularDragula(angular)])
                 .replace(/ /g, "_")
                 .replace(/\'/g, "")
                 .replace(/-/g, "_")
+                .replace(/\?/g, "")
                 .replace(/:/g, "") + ".jpg");
     }
 
