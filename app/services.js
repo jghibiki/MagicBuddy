@@ -164,7 +164,6 @@ mbServices.factory("deckManager", ["socket", function(socket){
             unique[idx].count = cardCounts[unique[idx].name];                 
         }
         deckManager.pretty = unique;
-
     });
 
     socket.on("deck:get:all::response", function(resp){
@@ -178,6 +177,10 @@ mbServices.factory("deckManager", ["socket", function(socket){
     socket.on("deck:import::response", function(){
         socket.emit("deck:get:one", deckManager.name);
     });
+
+    socket.on("deck:remove::response", function(){
+        socket.emit("deck:get:one", deckManager.name);
+    })
 
     deckManager.get();
 
