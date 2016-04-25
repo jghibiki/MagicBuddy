@@ -14,7 +14,7 @@
                         <a href="" ng-click="toolMode = toolModes.visualSpoiler">Visual Spoiler</a>
                     </li>
                     <li>
-                        <a href="" ng-click="toolMode = toolModes.startingHand">Starting Hand</a>
+                        <a href="" ng-click="toolMode = toolModes.startingHand; newHand()">Starting Hand</a>
                     </li>
                     <li>
                         <a href="" ng-click="toolMode = toolModes.probabilities">Probabilities</a>
@@ -122,7 +122,12 @@
             Probabilities
         </div>
         <div ng-show="toolMode == toolModes.notes">
-            Notes
+            <div>
+                <textarea ng-model="deckManager.notes" style="height:90%; width:90%;"></textarea>
+            </div>
+            <div>
+                <button ng-click="deckManager.saveNotes()">Save Notes</button>
+            </div>
         </div>
     </div>
     <div ng-show="deckManager.name ==''">

@@ -125,6 +125,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     $scope.loadDeck = function(name){
         $scope.deckManager.name = name;
         $scope.deckManager.get(name);
+        $scope.deckManager.getNotes();
     };
 
     $scope.viewCard = function(index){
@@ -203,7 +204,6 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
             alert("Cannot mulligan any more. Try a new hand.");
         }
     }
-
 
     /* Initialization */
     deckManager.get();

@@ -52,7 +52,6 @@ angular.module('magicBuddy.viewer', [angularDragula(angular)])
     $scope.cardText = function(){
         var text = $scope.viewerCard.text;
         text = text.replace($scope.symbolRe, function(x){
-            console.log(x);
             return "<span class='mi mi-mana mi-" + x.toLowerCase() + "'></span>"
         });
         text = text.replace(/{/g, "").replace(/}/g, "");

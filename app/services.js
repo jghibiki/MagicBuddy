@@ -91,6 +91,7 @@ mbServices.factory("deckManager", ["socket", function(socket){
     deckManager.deck = [];
     deckManager.names = [];
     deckManager.name = "";
+    deckManager.notes = "";
 
     deckManager.pretty = [];
 
@@ -145,6 +146,17 @@ mbServices.factory("deckManager", ["socket", function(socket){
         });
     };
 
+    deckManager.saveNotes = function(){
+        socket.emit("deck:notes:save", {
+            "name": deckManager.name,
+            "notes": deckManager.notes 
+        });
+    };
+
+    deckManager.getNotes = function(){
+        socket.emit("deck:notes:get", deckManager.name);
+    };
+
     /* Listeners */
     //register listeners
     
@@ -180,7 +192,15 @@ mbServices.factory("deckManager", ["socket", function(socket){
 
     socket.on("deck:remove::response", function(){
         socket.emit("deck:get:one", deckManager.name);
-    })
+    });
+
+    socket.on("deck:notes:save::response", function(){
+        socket.emit("deck:notes:get", deckManager.name);
+    });
+
+    socket.on("deck:notes:get::response", function(resp){
+        deckManager.notes = resp 
+    });
 
     deckManager.get();
 
