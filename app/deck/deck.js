@@ -9,10 +9,11 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
   });
 }])
 
-.controller('DeckCtrl', ["$scope", "deckManager", "cardManager", "dragulaService", function($scope, deckManager, cardManager, dragulaService) {
+.controller('DeckCtrl', ["$scope", "deckManager", "cardManager", "gitManager", "dragulaService", function($scope, deckManager, cardManager, gitManager, dragulaService) {
     
     $scope.type = "deck";
     $scope.deckManager = deckManager;
+    $scope.gitManager = gitManager;
     $scope.newDeckName = "";
     $scope.importCards = "";
     $scope.showColorless = false;
@@ -207,5 +208,14 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
 
     /* Initialization */
     deckManager.get();
+
+    $scope.commit = function(){
+        var msg = prompt("Please enter a commit message.", "");
+        if(msg !== null &&  msg !== undefined && msg !== ""){
+            $scope.gitManager.commit(msg);
+        }
+    }
+
+    
 
 }]);

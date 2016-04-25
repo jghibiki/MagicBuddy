@@ -30,10 +30,11 @@
                     <li><a href="" ng-click="saveDeck()">Save Deck</a></li>
                     <li><a href="" ng-click="deleteDeck()">Delete Deck</a></li>
                     <li><a href="" ng-click="deckManager.name = ''">Deck Selection</a></li>
+                    <li><a href="" ng-click="commit()">Commit Changes</a></li>
+                    <li><a href="" ng-click="gitManager.push()">Push Changes</a></li>
+                    <li><a href="" ng-click="gitManager.pull()">Pull Changes</a></li>
                 </ul>
             </div>
-        </div>
-        <div>
         </div>
         <div ng-show="toolMode == toolModes.editor">
             <hr>

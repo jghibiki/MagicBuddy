@@ -187,3 +187,51 @@ mbServices.factory("deckManager", ["socket", function(socket){
     return deckManager;
 
 }]);
+
+mbServices.factory("gitManager", ["socket", function(socket){
+    var gitManager = {};
+    
+    /* Commit */
+    gitManager.commit = function(message){
+        socket.emit("git:commit", message);
+    };
+
+    socket.on("git:commit::response", function(){
+        alert("Changes Committed.");
+    });
+
+    /* Clone */
+    gitManager.clone = function(repo){
+        socket.emit("git:clone", repo);
+    };
+
+    socket.on("git:clone::response", function(){
+        alert("Finished Cloning Repository.");
+    });
+
+
+    /* Pull */
+    gitManager.pull = function(){
+        socket.emit("git:pull");
+    };
+
+    socket.on("git:pull::response", function(){
+        alert("Finished Pulling Repository.");
+    });
+
+    /* Push */
+    gitManager.push = function(){
+        socket.emit("git:push");
+    };
+
+    socket.on("git:push::response", function(){
+        alert("Finished Pushing Repository.");
+    });
+
+    /* Status */
+    gitManager.status = function(){
+        socket.emit("git:status");
+    }
+
+    return gitManager;
+}]);
