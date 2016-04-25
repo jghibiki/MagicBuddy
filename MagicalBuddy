@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 var argv = require('yargs').argv;
+var git = require("./lib/git.js");
 var server = require('./lib/server.js');
 var cards = require('./lib/cards.js');
-var open = require('open');
+var opn = require('opn');
 
 
 
@@ -17,19 +18,23 @@ if(opts.debug) console.log("Running in debug mode.");
 
 var models = {}
 
-cards(opts, function(cards){
-    models["cards"] = cards;
+git(opts, function(git){
+    models["git"] = git;
 
-    loadDecks(opts, models["cards"],  function(decks){
-        models["decks"] = decks;
+    cards(opts, function(cards){
+        models["cards"] = cards;
 
-        loadCollection(opts, models["cards"], function(collection){
-            models["collection"] = collection;
+        loadDecks(opts, models["cards"], models["git"], function(decks){
+            models["decks"] = decks;
 
-            finishedPreload();
+            loadCollection(opts, models["cards"], models["git"],  function(collection){
+                models["collection"] = collection;
+
+                finishedPreload();
+            });
         });
     });
-});
+})
 
 function finishedPreload(){
     console.log("Starting web server.");
@@ -40,16 +45,16 @@ function finishedPreload(){
 function loadOptions(){
 
     var opts = {
-        version: "0.2",
+        version: "0.3",
         debug: argv.debug || false,
         host: argv.host || "localhost",
         port: argv.port || 8000,
         
-        //if the host is 0.0.0.0 we should set the url to localhost
+        //if the host is not 0.0.0.0 we should set the url to localhost
         url: (argv.host !== undefined && argv.host!=="0.0.0.0")?argv.host:"localhost",
 
         // should we open a browser
-        headeed: argv.headed || false,
+        headed: argv.headed || false,
         data: argv.data || "./data",
         cache: argv.cache || "./cache",
 
@@ -60,17 +65,19 @@ function loadOptions(){
     return opts;
 }
 
-function loadDecks(opts, cards, callback){
-    require('./lib/decks.js')(opts, cards, callback);
+function loadDecks(opts, cards, git, callback){
+    require('./lib/decks.js')(opts, cards, git, callback);
 }
 
-function loadCollection(opts, cards, callback){
-    require('./lib/collection.js')(opts, cards, callback);
+function loadCollection(opts, cards, git,  callback){
+    require('./lib/collection.js')(opts, cards, git, callback);
 }
 
 function ready(opts){
     if(opts.headed){
         console.log("Launching browser."); 
-        open("http://" + url + ":" + port)
+        var url = "http://" + opts["url"] + ":" + opts["port"];
+        console.log("Opening: " + url + ".")
+        opn(url)
     }
 }

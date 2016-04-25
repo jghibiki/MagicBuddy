@@ -9,9 +9,11 @@ angular.module('magicBuddy.collection', ['ngRoute'])
   });
 }])
 
-.controller('CollectionCtrl', ["$scope", "socket", "dragulaService", "collectionManager", "cardManager", function($scope, socket, dragulaService, collectionManager, cardManager) {
+.controller('CollectionCtrl', ["$scope", "socket", "dragulaService", "collectionManager", "cardManager", "gitManager", function($scope, socket, dragulaService, collectionManager, cardManager, gitManager) {
     $scope.type = "collection";
     $scope.importCards = "";
+    $scope.collectionManager = collectionManager;
+    $scope.gitManager = gitManager;
 
     dragulaService.options($scope, 'bag-one', {
         copy: function (el, source) {
@@ -39,7 +41,6 @@ angular.module('magicBuddy.collection', ['ngRoute'])
         revertOnSpill: true,
     });
 
-    $scope.collectionManager = collectionManager;
 
 
 
@@ -89,6 +90,13 @@ angular.module('magicBuddy.collection', ['ngRoute'])
 
     $scope.hideCard = function(){
         $scope.$broadcast("viewer:hideCard");
+    }
+
+    $scope.commit = function(){
+        var msg = prompt("Please enter a commit message.", "");
+        if(msg !== null &&  msg !== undefined && msg !== ""){
+            $scope.gitManager.commit(msg);
+        }
     }
 
 }]);

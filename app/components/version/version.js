@@ -5,4 +5,4 @@ angular.module('magicBuddy.version', [
   'magicBuddy.version.version-directive'
 ])
 
-.value('version', '0.2');
+.value('version', '0.3');
