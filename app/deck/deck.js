@@ -164,6 +164,11 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     /* Starting Hand Functions */
 
     $scope.newHand = function(){
+       if(deckManager.deck.length < 7){
+            alert("Please add at least 7 cards to your deck before using the Starting Hand Tool.");
+            $scope.toolMode = $scope.toolModes.editor;
+            return;
+       }
        $scope.startingHand.deck = deckManager.deck.slice(0);
        $scope.startingHand.hand = [];
        $scope.startingHand.cardCount = 7;
