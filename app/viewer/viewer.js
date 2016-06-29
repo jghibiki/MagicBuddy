@@ -19,10 +19,12 @@ angular.module('magicBuddy.viewer', [angularDragula(angular)])
 
     $scope.manaSymbols = function(){
         var symbols = [];
+        if($scope.viewerCard.type !== "Land"){
 
-        $scope.viewerCard.manaCost.match($scope.symbolRe).forEach(function(el){
-            symbols.push(el.toLowerCase());
-        });
+          $scope.viewerCard.manaCost.match($scope.symbolRe).forEach(function(el){
+              symbols.push(el.toLowerCase());
+          });
+        }
 
         return symbols
     }
