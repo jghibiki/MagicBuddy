@@ -29,50 +29,43 @@
                 <h1>Magic Buddy</h1>
             </div>
         </md-toolbar>
-        <md-content layout-padding>
+
+        <md-content layout-padding ng-controller="NavigationCtrl">
             <md-list>
-                <!--
                 <md-list-item>
-                    <menu-link>
-                    <a href="#/">
-                        <md-button>Main Menu</md-button>
-                    </a>
-                    </menu-link>
-                </md-list-item>
-                -->
-                <md-list-item>
-                        <a href="#/deck">
-                            <md-button>Deck Builder</md-button>
-                        </a>
+                            <md-button nav-to="/deck">Deck Builder</md-button>
                 </md-list-item>
                 <md-list-item>
-                        <a href="#/collection">
-                            <md-button>Collection Manager</md-button>
-                        </a>
+                        <md-button nav-to="/collection">Collection Manager</md-button>
                 </md-list-item>
             </md-list>
         </md-content>
+
         <md-toolbar class="md-theme-indigo">
             <h1 class="md-toolbar-tools">Revision Management</h1>
         </md-toolbar>
-        <md-content layout-padding>
-            <md-list>
+        <md-content layout-padding >
+            <md-list ng-controller="GitCtrl">
                 <md-list-item>
-                        <a href="">
-                            <md-button>Pull Changes</md-button>
-                        </a>
+                    <md-button ng-click="pull()">
+                        <md-icon>cloud_download</md-icon>
+                        Pull Changes
+                    </md-button>
                 </md-list-item>
                 <md-list-item>
-                    <a href="">
-                        <md-button>Commit Changes</md-button>
-                    </a>
+                    <md-button ng-click="commit()">
+                        <md-icon>check</md-icon>
+                        Commit Changes
+                    </md-button>
                 </md-list-item>
                 <md-list-item>
-                        <a href="#/collection">
-                            <md-button>Push Changes</md-button>
-                        </a>
+                    <md-button ng-click="push()">
+                        <md-icon>cloud_upload</md-icon>
+                        Push Changes
+                    </md-button>
                 </md-list-item>
             </md-list>
+        </md-content>
     </md-sidenav>
     <md-content layout="column" flex>
          <span ng-view></span>
@@ -98,6 +91,8 @@
   <script src="collection/collection.js"></script>
   <script src="selector/selector.js"></script>
   <script src="viewer/viewer.js"></script>
+  <script src="navigation/navigation.js"></script>
+  <script src="git/git.js"></script>
   <script src="visualization/manaCurveDirective.js"></script>
   <script src="visualization/manaDistributionDirective.js"></script>
   <script src="visualization/manaSourceDistributionDirective.js"></script>

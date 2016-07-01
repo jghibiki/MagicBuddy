@@ -9,23 +9,13 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
   });
 }])
 
-.controller('DeckCtrl', ["$scope", "deckManager", "cardManager", "gitManager", "dragulaService", function($scope, deckManager, cardManager, gitManager, dragulaService) {
+.controller('DeckCtrl', ["$scope", "deckManager", "cardManager", "dragulaService", function($scope, deckManager, cardManager, dragulaService) {
     
     $scope.type = "deck";
     $scope.deckManager = deckManager;
-    $scope.gitManager = gitManager;
     $scope.newDeckName = "";
     $scope.importCards = "";
     $scope.showColorless = false;
-    $scope.toolMode = 0;
-    $scope.toolModes = {
-        editor: 0,
-        deckStats: 1,
-        visualSpoiler: 2,
-        startingHand: 3,
-        probabilities: 4,
-        notes: 5
-    };
     $scope.startingHand = {
         deck: [],
         cardCount: 7,
@@ -164,13 +154,13 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     /* Starting Hand Functions */
 
     $scope.newHand = function(){
+       $scope.startingHand.hand = [];
        if(deckManager.deck.length < 7){
             alert("Please add at least 7 cards to your deck before using the Starting Hand Tool.");
-            $scope.toolMode = $scope.toolModes.editor;
+            $scope.selectedTabIndex = 0;
             return;
        }
        $scope.startingHand.deck = deckManager.deck.slice(0);
-       $scope.startingHand.hand = [];
        $scope.startingHand.cardCount = 7;
         
        for(var i=0; i<$scope.startingHand.cardCount; i++){
@@ -213,13 +203,6 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
 
     /* Initialization */
     deckManager.get();
-
-    $scope.commit = function(){
-        var msg = prompt("Please enter a commit message.", "");
-        if(msg !== null &&  msg !== undefined && msg !== ""){
-            $scope.gitManager.commit(msg);
-        }
-    }
 
     
 
