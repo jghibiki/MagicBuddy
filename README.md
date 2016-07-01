@@ -7,7 +7,7 @@ MagicBuddy requires NodeJS and npm (Node Package Manager) in order to run and in
 
 #Installation
 
-1. Clone this repository: ```git clone https://github.com/jghibiki/MagicBuddy```
+1. Clone this repository: ```git clone "v0.3" https://github.com/jghibiki/MagicBuddy```
 2. Run ```npm install``` from the root of the repository to install dependencies.
 
 # Usage

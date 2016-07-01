@@ -1,8 +1,35 @@
-<div>
-    <h1>Deck Manager:</h1>
+<md-toolbar class="md-accent" flex layout="row" layout-padding>
+    <div class="md-toolbar-tools">
+        <h3>Deck Manager:</h3>
+        <md-menu >
+            <md-button aria-label="Deck Options" ng-click="$mdOpenMenu($event)">
+                Deck Settings 
+            </md-button>
+            <md-menu-content>
+                <md-menu-item>
+                    <a href="" ng-click="saveDeck()">Save Deck</a>
+                </md-menu-item>
+                <md-menu-item>
+                    <a href="" ng-click="deleteDeck()">Delete Deck</a>
+                </md-menu-item>
+                <md-menu-item>
+                    <a href="" ng-click="deckManager.name = ''">Deck Selection</a>
+                </md-menu-item>
+                <md-menu-item>
+                    <a href="" ng-click="commit()">Commit Changes</a>
+                </md-menu-item>
+                <md-menu-item>
+                    <a href="" ng-click="gitManager.push()">Push Changes</a>
+                </md-menu-item>
+                <md-menu-item>
+                    <a href="" ng-click="gitManager.pull()">Pull Changes</a>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
+</md-toolbar>
+<md-content layout-padding flex>
     <div ng-show="deckManager.name !== ''">
-        <div class="pure-g">
-            <div class="pure-u-3-5">
                 <ul class="menu">
                     <li>
                         <a href="" ng-click="toolMode = toolModes.editor">Deck Editor</a>
@@ -25,15 +52,7 @@
                 <ul>
             
             </div>
-            <div class="pure-u-2-5">
-                <ul class="menu">
-                    <li><a href="" ng-click="saveDeck()">Save Deck</a></li>
-                    <li><a href="" ng-click="deleteDeck()">Delete Deck</a></li>
-                    <li><a href="" ng-click="deckManager.name = ''">Deck Selection</a></li>
-                    <li><a href="" ng-click="commit()">Commit Changes</a></li>
-                    <li><a href="" ng-click="gitManager.push()">Push Changes</a></li>
-                    <li><a href="" ng-click="gitManager.pull()">Pull Changes</a></li>
-                </ul>
+            <div>
             </div>
         </div>
         <div ng-show="toolMode == toolModes.editor">
@@ -147,5 +166,5 @@
             <button ng-click="createDeck()">New Deck</button>
         </div>
     </div>
-</div>
+</md-content>
 

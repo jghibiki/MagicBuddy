@@ -11,53 +11,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
+  <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css ">
   <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="bower_components/angular-dragula/dist/dragula.min.css">
-  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
-  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
-  <!--[if lte IE 8]>
-  	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-old-ie-min.css">
-  <![endif]-->
-  <!--[if gt IE 8]><!-->
-  	<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
-  <!--<![endif]-->
   <link rel="stylesheet" href="css/magic-font.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
-<body>
-    <div class="pure-g">
-        <div class="pure-u-lg-1-4 pure-u-sm-1">
-            <pre style="font-size: 0.5em;"><b>
-  __  __             _        __  _  __   ____            _     _        <br> |  \/  |           (_)      / /\| |/\ \ |  _ \          | |   | |       <br> | \  / | __ _  __ _ _  ___ / /\ ` ' /\ \| |_) |_   _  __| | __| |_   _  <br> | |\/| |/ _` |/ _` | |/ __< <|_     _|> >  _ <| | | |/ _` |/ _` | | | | <br> | |  | | (_| | (_| | | (__ \ \/ , . \/ /| |_) | |_| | (_| | (_| | |_| | <br> |_|  |_|\__,_|\__, |_|\___| \_\/|_|\/_/ |____/ \__,_|\__,_|\__,_|\__, | <br>                __/ |                                              __/ | <br>               |___/                                              |___/  
-            </b></pre>
+<body layout="row">
+    <md-sidenav 
+         class="md-sidenav-left"
+         md-is-locked-open="$mdMedia('gt-md')"
+         md-disable-backdrop
+         md-whiteframe="4">
+        <md-toolbar class="md-theme-indigo">
+            <div class="md-toolbar-tools">
+                <h1>Magic Buddy</h1>
+            </div>
+        </md-toolbar>
+        <md-content layout-padding>
+            <md-list>
+                <!--
+                <md-list-item>
+                    <menu-link>
+                    <a href="#/">
+                        <md-button>Main Menu</md-button>
+                    </a>
+                    </menu-link>
+                </md-list-item>
+                -->
+                <md-list-item>
+                        <a href="#/deck">
+                            <md-button>Deck Builder</md-button>
+                        </a>
+                </md-list-item>
+                <md-list-item>
+                        <a href="#/collection">
+                            <md-button>Collection Manager</md-button>
+                        </a>
+                </md-list-item>
+            </md-list>
+        </md-content>
+        <md-toolbar class="md-theme-indigo">
+            <h1 class="md-toolbar-tools">Revision Management</h1>
+        </md-toolbar>
+        <md-content layout-padding>
+            <md-list>
+                <md-list-item>
+                        <a href="">
+                            <md-button>Pull Changes</md-button>
+                        </a>
+                </md-list-item>
+                <md-list-item>
+                    <a href="">
+                        <md-button>Commit Changes</md-button>
+                    </a>
+                </md-list-item>
+                <md-list-item>
+                        <a href="#/collection">
+                            <md-button>Push Changes</md-button>
+                        </a>
+                </md-list-item>
+            </md-list>
+    </md-sidenav>
+    <md-content layout="column" flex>
+         <span ng-view></span>
+
+        <div layout-padding layout-align="bottom center">
+          <div style="text-align: center">Magic Buddy: v<span app-version></span> Copyright 2016 Jordan Goetze</div>
         </div>
-        <div class="pure-u-lg-3-4 pure-u-sm-1">
-            <br>
-            <ul class="menu">
-                <li><a href="#/">Main Menu</a></li>
-                <li><a href="#/deck">Deck Builder</a></li>
-                <li><a href="#/collection">Collection Manager</a></li>
-            </ul>
-        </div>
-    </div>
-
-  <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
-
-  <div ng-view></div>
-
-  <br>
-  <br>
-  <hr>
-  <div style="text-align: center">Magic Buddy: v<span app-version></span> Copyright 2016 Jordan Goetze</div>
-  <hr>
-
+    </md-content>
   <!-- In production use:
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
   -->
   <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
+  <script src="bower_components/angular-material/angular-material.js"></script>
+  <script src="bower_components/angular-aria/angular-aria.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-dragula/dist/angular-dragula.js"></script>
   <script src="app.js"></script>
   <script src="services.js"></script>
