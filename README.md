@@ -1,6 +1,9 @@
 ## MagicBuddy
 A deck and collection manager for Magic the Gathering
 
+
+
+
 # Dependencies
 
 MagicBuddy requires NodeJS and npm (Node Package Manager) in order to run and install dependencies.
@@ -37,7 +40,14 @@ Advanced Usage - Flags:
 Note: Version 0.3 adds basic git support, in order to suppport pushing/pulling from a repository with ssh, you must use an ssh-agent and add use ```ssh-add``` to add your private key. Without this, you may not be able to authenticate and pulling/pushing will fail.
 
 
-The JSON files used for card data come from [http://mtgjson.com/](http://mtgjson.com/).
-The JSON files contains data that is Copyright © Wizards of the Coast - All Rights Reserved
-This website/project is not affiliated with Wizards of the Coast in any way.
+# Screenshots
+![Editing a deck](https://github.com/jghibiki/MagicBuddy/blob/material-ui/images/image1.png)
+
+![Viewing my decks](https://github.com/jghibiki/MagicBuddy/blob/material-ui/images/image2.png)
+
+
+# A few notes
+- The JSON files used for card data come from [http://mtgjson.com/](http://mtgjson.com/).
+- The JSON files contains data that is Copyright © Wizards of the Coast - All Rights Reserved
+- This website/project is not affiliated with Wizards of the Coast in any way.
 
