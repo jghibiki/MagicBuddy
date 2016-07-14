@@ -68,9 +68,10 @@
         </md-content>
     </md-sidenav>
     <md-content layout="column" flex>
-         <span ng-view></span>
+         <span ng-view flex="none"></span>
+         <div flex></div>
 
-        <div layout-padding layout-align="bottom center">
+        <div layout-padding layout-align="bottom center" flex="none">
           <div style="text-align: center">Magic Buddy: v<span app-version></span> Copyright 2016 Jordan Goetze</div>
         </div>
     </md-content>
