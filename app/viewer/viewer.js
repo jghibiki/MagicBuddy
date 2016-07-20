@@ -19,7 +19,7 @@ angular.module('magicBuddy.viewer', [angularDragula(angular)])
 
     $scope.manaSymbols = function(){
         var symbols = [];
-        if($scope.viewerCard.type !== "Land"){
+        if($scope.viewerCard.type !== "Land" && $scope.viewerCard.type !== "Scheme"){
 
           $scope.viewerCard.manaCost.match($scope.symbolRe).forEach(function(el){
               symbols.push(el.toLowerCase());
@@ -36,6 +36,7 @@ angular.module('magicBuddy.viewer', [angularDragula(angular)])
                 .replace(/\'/g, "")
                 .replace(/-/g, "_")
                 .replace(/\?/g, "")
+                .replace(/\,/g, "")
                 .replace(/:/g, "") + ".jpg");
     }
 
