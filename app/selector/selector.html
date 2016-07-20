@@ -1,5 +1,8 @@
 <div ng-controller="SelectorCtrl">
-        <label> Search Cards:</label>
-        <input type="text" ng-model="searchQuery" ng-change="search()" ng-model-optsions="{debounce: 2000}"/>
-    <div ng-repeat="card in getSearchResults() track by $index | limitTo:10" class="you-may-copy-us" dragula-scope="$parent" ng-click="$parent.add($index, $event)" ng-mouseover="viewCard($index)" ng-mouseleave="hideCard()" style="cursor: pointer">{{card.name}}</div>
+    <form ng-submit="add(null, $event)">
+        <label> Search Cards: <input type="text" ng-model="searchQuery" ng-change="search()" ng-model-optsions="{debounce: 2000}"></label>
+    </form>
+    <div dragula='"bag-one"'  dragula-scope="$parent">
+        <div ng-repeat="card in getSearchResults() track by $index | limitTo:10" class="you-may-copy-us" dragula-scope="$parent" ng-click="$parent.add($index, $event)" ng-mouseover="viewCard($index)" ng-mouseleave="hideCard()" style="cursor: pointer">{{card.name}}</div>
+    </div>
 </div>
