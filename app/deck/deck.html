@@ -1,7 +1,7 @@
 
 <md-content ng-show="deckManager.name !== ''">
 
-    <md-toolbar class="md-menu-toolbar md-accent" >
+    <md-toolbar class="md-menu-toolbar md-hue-1" >
         <div layout="row">
             <md-toolbar-filler layout layout-align="center center">
                 <md-icon>edit</md-icon>
@@ -26,25 +26,25 @@
     <md-tabs md-selected="selectedTabIndex" md-dynamic-height>
         <md-tab label="Deck Editor">
             <br>
-            <md-card ng-show="deckManager.deck.length > 0" layout="row">
-                <div flex="25">
-                    <mana-curve deck="deckManager.deck"></mana-curve>
+            <md-card class="md-whiteframe-4" ng-show="deckManager.deck.length > 0" layout-gt-md="row" layout-align="center start">
+                <div flex="33"  layout="column" layout-align="center start">
+                    <mana-curve deck="deckManager.deck" flex></mana-curve>
                 </div>
-                <div flex="25" style="text-align: center;">
-                    <mana-distribution deck="deckManager.deck" colorless="showColorless"></mana-distribution> 
-                    <br>
-                    <md-button ng-click="toggleColorless()">{{ showColorless?"Hide Colorless Mana":"Show Colorless Mana"}}</md-button>
+                <div flex="33" layout="column" layout-align="center start">
+                    <div flex layout="column" layout-align="center center">
+                        <mana-distribution deck="deckManager.deck" colorless="showColorless" flex></mana-distribution> 
+                        <md-button ng-click="toggleColorless()" flex>{{ showColorless?"Hide Colorless Mana":"Show Colorless Mana"}}</md-button>
+                    </div>
                 </div>
-                <div flex="25">
-                    <mana-source-distribution deck="deckManager.deck" colorless="showColorless"></mana-distribution> 
+                <div flex="33" layout="column" layout-align="center start">
+                    <mana-source-distribution deck="deckManager.deck" colorless="showColorless" flex></mana-distribution> 
                 </div>
-                <div flex="25"></div>
             </md-card>
             <md-card  ng-show="deckManager.deck.length == 0">
                 Add cards to generate graphs.
             </md-card>
             <md-card  layout="row">
-                <div flex="20" ng-include="'selector/selector.html'">
+                <div flex="20"ng-include="'selector/selector.html'">
                 </div>
                 <div flex="noshrink" >
                     <md-content dragula='"bag-one"' class="copy-target"  style="border-style: solid; border-width: 1px 1px 1px 1px; padding: 5px; overflow-y: scroll; height: 300px;; ">
@@ -132,12 +132,9 @@
 <md-content>
     <md-content ng-show="deckManager.name ==''">
 
-        <md-toolbar class="md-menu-toolbar">
-            <div layout="row">
-                <md-toolbar-filler layout layout-align="center center">
-                    <md-icon>list</md-icon>
-                </md-toolbar-filler>
-                <h2 class="md-toolbar-tools" layout-align="left">Your Decks</h2>
+        <md-toolbar class="md-hue-1">
+            <div class="md-toolbar-tools">
+                <h2 layout-align="left">Your Decks</h2>
             </div>
         </md-toolbar>
         <md-list class="dense">
