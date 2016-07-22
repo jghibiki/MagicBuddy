@@ -9,9 +9,10 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
   });
 }])
 
-.controller('DeckCtrl', ["$scope", "deckManager", "cardManager", "dragulaService", function($scope, deckManager, cardManager, dragulaService) {
+.controller('DeckCtrl', ["$scope", "deckManager", "cardManager", "dragulaService", "$mdDialog", "$mdMedia", "$sce", function($scope, deckManager, cardManager, dragulaService, $mdDialog, $mdMedia, $sce) {
     
     $scope.type = "deck";
+	$scope.selected = [];
     $scope.deckManager = deckManager;
     $scope.newDeckName = "";
     $scope.importCards = "";
@@ -21,6 +22,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
         cardCount: 7,
         hand: [],
     };
+
 
     dragulaService.options($scope, 'bag-one', {
         copy: function (el, source) {
@@ -204,6 +206,86 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     /* Initialization */
     deckManager.get();
 
-    
+	$scope.showCard = function(card, ev){
+		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+		$mdDialog.show({
+		  controller: DialogController,
+		  templateUrl: 'deck/card.tmpl.html',
+		  parent: angular.element(document.body),
+		  targetEvent: ev,
+		  clickOutsideToClose:true,
+		  fullscreen: useFullScreen,
+		  locals: {
+			card: card
+		  }
+		})
+		$scope.$watch(function() {
+		  return $mdMedia('xs') || $mdMedia('sm');
+		}, function(wantsFullScreen) {
+		  $scope.customFullscreen = (wantsFullScreen === true);
+		});
+	}    
+
+	function DialogController($scope, $mdDialog, card) {
+		$scope.card = card
+		$scope.symbolRe = /[^{}]+(?=\})/g;
+		$scope.viewerMode = "both";
+
+		$scope.hide = function() {
+		  $mdDialog.hide();
+		};
+		$scope.cancel = function() {
+		  $mdDialog.cancel();
+		};
+		$scope.answer = function(answer) {
+		  $mdDialog.hide(answer);
+		};
+
+
+		$scope.manaSymbols = function(){
+			var symbols = [];
+			if($scope.card.type !== "Land" && $scope.card.type !== "Scheme"){
+
+			  $scope.card.manaCost.match($scope.symbolRe).forEach(function(el){
+				  symbols.push(el.toLowerCase());
+			  });
+			}
+
+			return symbols
+		}
+
+		$scope.getUnderName = function(){
+			return encodeURI($scope.card.name
+					.toLowerCase()
+					.replace(/ /g, "_")
+					.replace(/\'/g, "")
+					.replace(/-/g, "_")
+					.replace(/\?/g, "")
+					.replace(/\,/g, "")
+					.replace(/:/g, "") + ".jpg");
+		}
+
+		$scope.showImage = function(){
+			return $scope.viewerMode == "image";
+		}
+
+		$scope.showText = function(){
+			return $scope.viewerMode == "text";
+		}
+
+		$scope.showBoth = function(){
+			return $scope.viewerMode == "both";
+		}
+
+		$scope.cardText = function(){
+			var text = $scope.card.text;
+			text = text.replace($scope.symbolRe, function(x){
+				return "<span class='mi mi-mana mi-" + x.toLowerCase() + "'></span>"
+			});
+			text = text.replace(/{/g, "").replace(/}/g, "");
+			return $sce.trustAsHtml(text);
+		}
+
+	}
 
 }]);

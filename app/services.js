@@ -92,6 +92,7 @@ mbServices.factory("deckManager", ["socket", function(socket){
     deckManager.names = [];
     deckManager.name = "";
     deckManager.notes = "";
+    deckManager.symbolRe = /[^{}]+(?=\})/g;
 
     deckManager.pretty = [];
 
@@ -173,7 +174,18 @@ mbServices.factory("deckManager", ["socket", function(socket){
         });
 
         for(var idx in unique){
-            unique[idx].count = cardCounts[unique[idx].name];                 
+            var card = unique[idx];
+            unique[idx].count = cardCounts[card.name];                 
+
+
+			if(card.hasOwnProperty("manaCost")){
+
+                var symbols = [];
+                card.manaCost.match(deckManager.symbolRe).forEach(function(el){
+                    symbols.push(el.toLowerCase());
+                });
+                unique[idx].manaSymbols = symbols;
+            }
         }
         deckManager.pretty = unique;
     });

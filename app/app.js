@@ -5,6 +5,7 @@ angular.module('magicBuddy', [
   'ngRoute',
   'ngMaterial',
   'btford.socket-io',
+  'md.data.table',
   'magicBuddy.mainMenu',
   'magicBuddy.deck',
   'magicBuddy.collection',
