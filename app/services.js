@@ -62,8 +62,6 @@ mbServices.factory("collectionManager", ["socket", function(socket){
         alert("Collection Saved!");
     });
 
-    collectionManager.get();
-
     
     return collectionManager;
 }]);
@@ -86,84 +84,119 @@ mbServices.factory("cardManager", ["socket", function(socket){
     return cardManager;
 }]);
 
-mbServices.factory("deckManager", ["socket", function(socket){
+mbServices.factory("deckManager", ["socket", "$q", function(socket, $q){
     var deckManager = {};
     deckManager.deck = [];
     deckManager.names = [];
     deckManager.name = "";
+    deckManager.previous= "";
     deckManager.notes = "";
     deckManager.symbolRe = /[^{}]+(?=\})/g;
 
     deckManager.pretty = [];
 
+    deckManager.promise = null;
+
     /* API */
 
+    deckManager.deselectDeck = function(){
+        deckManager.previous = deckManager.name;
+        deckManager.name = "";
+    }
+
+    deckManager.isPreviousDeck = function(name){
+        return deckManager.previous === name;
+    }
+
+    deckManager.selectDeck = function(name){
+        deckManager.name = name;
+    }
+
+
+    function dispatchOrChain(callable, args){
+        if(deckManager.promise !== null){
+            deckManager.promise
+                .promise.then(function(){
+                    callable.apply(this, args);
+                })
+                .finally(function(){
+                    deckManager.promise = null;   
+                });
+        }
+        else{
+            return callable.apply(this, args);
+        }
+        return deckManager.promise;
+         
+    }
+
+    /* Add */
     deckManager.add = function(card){
+        return dispatchOrChain(addCard, [card]);
+    };
+
+    function addCard(card){
+        deckManager.promise = $q.defer();
         socket.emit("deck:add", {
             name: deckManager.name,
             card: card
         });
-        deckManager.get(deckManager.name);
+        return deckManager.promise;
+    }
+
+    socket.on("deck:add::response", function(){
+        deckManager.promise.resolve();
+        deckManager.promise = null;
+    });
+
+
+    /* Remove */
+    deckManager.remove = function(card){
+        return dispatchOrChain(removeCard, [card]);
     };
 
-    deckManager.remove = function(card){
+    function removeCard(card){
+        deckManager.promise = $q.defer();
         socket.emit("deck:remove", {
             card: card,
             name: deckManager.name
         });
-        deckManager.get();
-    };
+        return deckManager.promise
+    }
+
+
+    socket.on("deck:remove::response", function(){
+        deckManager.promise.resolve();
+        deckManager.promise = null;
+    });
+
+    /* Get */
 
     deckManager.get = function(name){
         if(name === undefined || name === null){
-            socket.emit("deck:get:all");
+            return dispatchOrChain(getAll, {});
         }
         else{
-            socket.emit("deck:get:one", name);
+            return dispatchOrChain(getOne, [name]);
         }
     };
 
-    deckManager.create = function(name){
-        if(name == undefined || name == null || name == ""){
-            throw Error("Deck name cannot be empty");
-        }
-        else{
-            socket.emit("deck:create", name);
-        }
+    function getAll(){
+        deckManager.promise = $q.defer();
+        socket.emit("deck:get:all");
+        return deckManager.promise;
     };
 
-    deckManager.save = function(){
-        socket.emit("deck:save", deckManager.name);
-    };
+    function getOne(name){
+        deckManager.promise = $q.defer();
+        socket.emit("deck:get:one", name);
+        return deckManager.promise;
+    }
 
-    deckManager.delete = function(){
-        socket.emit("deck:delete", deckManager.name);
-    };
 
-    deckManager.bulkImport = function(cards){
-        socket.emit("deck:import", { 
-            "name": deckManager.name, 
-            "cards": cards
-        });
-    };
-
-    deckManager.saveNotes = function(){
-        socket.emit("deck:notes:save", {
-            "name": deckManager.name,
-            "notes": deckManager.notes 
-        });
-    };
-
-    deckManager.getNotes = function(){
-        socket.emit("deck:notes:get", deckManager.name);
-    };
-
-    /* Listeners */
-    //register listeners
-    
     socket.on("deck:get:one::response", function(resp){
 
-        deckManager.deck= resp;
+        deckManager.deck = resp;
 
         //build pretty collection
         var cardCounts = {};
@@ -188,33 +221,133 @@ mbServices.factory("deckManager", ["socket", function(socket){
             }
         }
         deckManager.pretty = unique;
+        deckManager.promise.resolve(deckManager.pretty);
+        deckManager.promise = null;
     });
 
     socket.on("deck:get:all::response", function(resp){
         deckManager.names = resp
+        deckManager.promise.resolve(deckManager.names);
+        deckManager.promise = null;
     });
+    
+    /* Create */
+    deckManager.create = function(name){
+        if(name == undefined || name == null || name == ""){
+            throw Error("Deck name cannot be empty");
+        }
+        else{
+            return dispatchOrChain(createDeck, [name]);
+        }
+    };
+
+    function createDeck(name){
+        deckManager.promise = $q.defer();
+        socket.emit("deck:create", name);
+        return deckManager.promise;
+    }
 
     socket.on("deck:create::response", function(){
-        socket.emit("deck:get:all");
+        deckManager.promise.resolve();
+        deckManager.promise = null;
     });
+
+
+    /* Save */
+
+    deckManager.save = function(){
+        deckManager.promise = $q.defer();
+        dispatchOrChain(saveDeck, []);
+        return deckManager.promise;
+    };
+
+    function saveDeck(){
+        deckManager.promise = $q.defer();
+        socket.emit("deck:save", deckManager.name);
+        return deckManager.promise;
+    }
+
+    socket.on("deck:save::respose", function(){
+        deckManager.promise.resolve();
+        deckManager.promise = null;
+    });
+
+    /* Delete */
+
+    deckManager.delete = function(){
+        return dispatchOrChain(deleteDeck, []);
+    };
+    
+    function deleteDeck(){
+        deckManager.promise = $q.defer();
+        socket.emit("deck:delete", deckManager.name);
+        return deckManager.promise;
+    }
+
+    socket.on("deck:delete::response", function(){
+        deckManager.promise.resolve();
+        deckManager.promise = null;
+    });
+
+
+    /* Bulk Import */
+    
+    deckManager.bulkImport = function(cards){
+        return dispatchOrChain(bulkImport, [cards]);
+    };
+
+    function bulkImport(cards){
+        deckManager.promise = $q.defer();
+        socket.emit("deck:import", { 
+            "name": deckManager.name, 
+            "cards": cards
+        });
+        return deckManager.promise;
+    }
 
     socket.on("deck:import::response", function(){
-        socket.emit("deck:get:one", deckManager.name);
+        deckManager.promise.resolve();
+        deckManager.promise = null;
     });
 
-    socket.on("deck:remove::response", function(){
-        socket.emit("deck:get:one", deckManager.name);
-    });
+
+    /* Save notes */
+    deckManager.saveNotes = function(){
+        dispatchOrChain(saveNotes, []);
+    };
+
+    function saveNotes(){
+        deckManager.promise = $q.defer();
+        socket.emit("deck:notes:save", {
+            "name": deckManager.name,
+            "notes": deckManager.notes 
+        });
+        return deckManager.promise;
+    }
 
     socket.on("deck:notes:save::response", function(){
-        socket.emit("deck:notes:get", deckManager.name);
+        deckManager.promise.resolve();
+        deckManager.promise = null;
     });
+
+    /* Get Notes */
+
+    deckManager.getNotes = function(){
+        dispatchOrChain(getNotes, []);
+        return deckManager.promise;
+    };
+
+    function getNotes(){
+        deckManager.promise = $q.defer();
+        socket.emit("deck:notes:get", deckManager.name);
+        return deckManager.promise;
+    }
 
     socket.on("deck:notes:get::response", function(resp){
         deckManager.notes = resp 
+        deckManager.promise.resolve(resp);
+        deckManager.promise = null;
     });
-
-    deckManager.get();
 
     return deckManager;
 

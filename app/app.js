@@ -5,6 +5,7 @@ angular.module('magicBuddy', [
   'ngRoute',
   'ngMaterial',
   'btford.socket-io',
+  'bsLoadingOverlay',
   'md.data.table',
   'magicBuddy.mainMenu',
   'magicBuddy.deck',
@@ -18,13 +19,18 @@ angular.module('magicBuddy', [
   'magicBuddy.navigation',
   'magicBuddy.git',
   'magicBuddy.version'
-]).
-config(['$routeProvider', function($routeProvider) {
+])
+.config(['$routeProvider', function($routeProvider) {
   $routeProvider.otherwise({redirectTo: '/'});
-}]).
-factory('socket', function (socketFactory) {
+}])
+.factory('socket', function (socketFactory) {
     var mySocket = socketFactory();
     mySocket.forward('error');
     return mySocket;
-});
+})
+.run(function(bsLoadingOverlayService) {
+    bsLoadingOverlayService.setGlobalConfig({
+        templateUrl: 'loader-template.html'
+    });
+})
 

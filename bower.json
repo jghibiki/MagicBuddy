@@ -16,7 +16,8 @@
     "angular-dragula": "~1.2.4",
     "angular-socket-io": "~0.7.0",
     "angular-material": "^1.0.9",
-    "angular-material-data-table": "^0.10.9"
+    "angular-material-data-table": "^0.10.9",
+    "angular-loading-overlay": "^1.1.1"
   },
   "resolutions": {
     "angular": "1.5.7"

@@ -9,7 +9,9 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
   });
 }])
 
-.controller('DeckCtrl', ["$scope", "deckManager", "cardManager", "dragulaService", "$mdDialog", "$mdMedia", "$sce", function($scope, deckManager, cardManager, dragulaService, $mdDialog, $mdMedia, $sce) {
+.controller('DeckCtrl', ["$scope", "deckManager", "cardManager", "dragulaService", "$mdDialog", "$mdMedia", "$sce", "bsLoadingOverlayService", function($scope, deckManager, cardManager, dragulaService, $mdDialog, $mdMedia, $sce, bsLoadingOverlayService) {
+    // start loader
+    bsLoadingOverlayService.start();
     
     $scope.type = "deck";
 	$scope.selected = [];
@@ -116,9 +118,20 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     };
 
     $scope.loadDeck = function(name){
-        $scope.deckManager.name = name;
-        $scope.deckManager.get(name);
-        $scope.deckManager.getNotes();
+        bsLoadingOverlayService.start();
+        deckManager.selectDeck(name);
+        
+        // reload deck if it not the previously selected deck
+        if(!deckManager.isPreviousDeck(name)){
+            $scope.deckManager.get(name).promise.then(function(){
+                $scope.deckManager.getNotes().promise.finally(function(){
+                    bsLoadingOverlayService.stop();
+                });
+            });
+        }
+        else{
+            bsLoadingOverlayService.stop();
+        }
     };
 
     $scope.viewCard = function(index){
@@ -203,8 +216,6 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
         }
     }
 
-    /* Initialization */
-    deckManager.get();
 
 	$scope.showCard = function(card, ev){
 		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
@@ -287,5 +298,10 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
 		}
 
 	}
+
+    /* Initialization */
+    deckManager.get().promise.finally(function(){
+        bsLoadingOverlayService.stop();  
+    });
 
 }]);

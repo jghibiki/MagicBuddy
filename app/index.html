@@ -68,8 +68,15 @@
             </md-list>
         </md-content>
     </md-sidenav>
-    <md-content layout="column" flex>
-         <span ng-view flex="none"></span>
+    <md-content layout="column"   flex>
+        <script type="text/ng-template" id="loader-template.html">
+            <div style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; background-color: rgba(255,255,255,0.7);" layout="row" layout-align="center center">
+                <div>
+                    <md-progress-circular md-mode="indeterminate" md-diameter="100"/></md-progress-circular>
+                </div>
+            </div>
+        </script>
+         <span ng-view bs-loading-overlay flex="none"></span>
          <div flex></div>
 
         <div layout-padding layout-align="bottom center" flex="none">
@@ -86,6 +93,7 @@
   <script src="bower_components/angular-aria/angular-aria.js"></script>
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-dragula/dist/angular-dragula.js"></script>
+  <script src="bower_components/angular-loading-overlay/dist/angular-loading-overlay.js"></script>
   <script type="text/javascript" src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
   <script src="app.js"></script>
   <script src="services.js"></script>
