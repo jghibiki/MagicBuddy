@@ -100,7 +100,14 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
 
     $scope.createDeck = function(){
         if($scope.newDeckName.indexOf("/") != -1){
-            alert("Deck Names cannot contain '/'");
+            $mdDialog.show(
+                $mdDialoDialog.alert()
+                .clickOutsideToClose(true)
+                .title("Uh oh!")
+                .textContent('Deck names cannot contain "/"')
+                .ariaLabel('Deck names cannot contain "/"')
+                .ok('Got it!')
+            );
         }
         else{
             deckManager.create($scope.newDeckName);
@@ -171,7 +178,14 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
     $scope.newHand = function(){
        $scope.startingHand.hand = [];
        if(deckManager.deck.length < 7){
-            alert("Please add at least 7 cards to your deck before using the Starting Hand Tool.");
+            $mdDialog.show(
+                $mdDialog.alert()
+                .clickOutsideToClose(true)
+                .title("Uh oh!")
+                .textContent("Please add at least 7 cards to your deck before using the Starting Hand Tool.")
+                .ariaLabel("Please add at least 7 cards to your deck before using the Starting Hand Tool.")
+                .ok('Got it!')
+            );
             $scope.selectedTabIndex = 0;
             return;
        }
@@ -195,7 +209,14 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
             if(index > -1) $scope.startingHand.deck.splice(index, 1);
         }
         else{
-            alert("No more cards left in deck to add to hand. Try a new hand.");
+            $mdDialog.show(
+                $mdDialog.alert()
+                .clickOutsideToClose(true)
+                .title("Uh oh!")
+                .textContent("No more cards left in deck to add to hand. Try a new hand.")
+                .ariaLabel("No more cards left in deck to add to hand. Try a new hand.")
+                .ok('Got it!')
+            );
         }
     }
 
@@ -212,7 +233,14 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
             }
         }
         else{
-            alert("Cannot mulligan any more. Try a new hand.");
+            $mdDialog.show(
+                $mdDialog.alert()
+                .clickOutsideToClose(true)
+                .title("Uh oh!")
+                .textContent("Cannot mulligan any more. Try a new hand.")
+                .ariaLabel("Cannot mulligan any more. Try a new hand.")
+                .ok('Got it!')
+            );
         }
     }
 
