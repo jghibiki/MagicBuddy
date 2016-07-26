@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('magicBuddy.selector', [])
-.controller('SelectorCtrl', ["$rootScope", "$scope", "socket", "collectionManager", "deckManager", "cardManager", function($rootScope, $scope, socket, collectionManager, deckManager, cardManager) {
+.controller('SelectorCtrl', ["$rootScope", "$scope", "socket", "collectionManager", "deckManager", "cardManager", "bsLoadingOverlayService", function($rootScope, $scope, socket, collectionManager, deckManager, cardManager, bsLoadingOverlayService) {
 
     // ensure that scope has a type field from parent
     if($scope.type === undefined){
@@ -41,17 +41,28 @@ angular.module('magicBuddy.selector', [])
         }
         else if($scope.type === "deck"){
             if(cardId !== null && cardId !== undefined){
-                if($event.shiftKey){
-                    //Add 4 if shift is held
-                    deckManager.add(cardManager.searchResults[cardId]);
-                    deckManager.add(cardManager.searchResults[cardId]);
-                    deckManager.add(cardManager.searchResults[cardId]);
-                    deckManager.add(cardManager.searchResults[cardId]);
-                }
-                else{
-                    //Add one
-                    deckManager.add(cardManager.searchResults[cardId]);
-                }
+                    bsLoadingOverlayService.start();
+                    var card = cardManager.searchResults[cardId];
+                    if(event.shiftKey){
+                      deckManager.add(card).promise.then(function(){
+                        deckManager.add(card).promise.then(function() {
+                          deckManager.add(card).promise.then(function(){
+                            deckManager.add(card).promise.then(function(){
+                              deckManager.get(deckManager.name).promise.then(function(){
+                                bsLoadingOverlayService.stop();
+                              });
+                            })
+                          })
+                        })
+                      })
+                    }
+                    else{
+                      deckManager.add(card).promise.then(function(){
+                        deckManager.get(deckManager.name).promise.then(function(){
+                          bsLoadingOverlayService.stop();
+                        });
+                      })
+                    }
             }
             else{
                 if(cardManager.searchResults.length > 0){

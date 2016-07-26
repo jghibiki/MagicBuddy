@@ -58,14 +58,26 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
             for(var i=0; i<cardManager.searchResults.length; i++){
                 var card = cardManager.searchResults[i];
                 if(card.name === newCard){
+                    bsLoadingOverlayService.start();
                     if(event.shiftKey){
-                        deckManager.add(card);
-                        deckManager.add(card);
-                        deckManager.add(card);
-                        deckManager.add(card);
+                      deckManager.add(card).promise.then(function(){
+                        deckManager.add(card).promise.then(function() {
+                          deckManager.add(card).promise.then(function(){
+                            deckManager.add(card).promise.then(function(){
+                              deckManager.get(deckManager.name).promise.then(function(){
+                                bsLoadingOverlayService.stop();
+                              });
+                            })
+                          })
+                        })
+                      })
                     }
                     else{
-                        deckManager.add(card);
+                      deckManager.add(card).promise.then(function(){
+                        deckManager.get(deckManager.name).promise.then(function(){
+                          bsLoadingOverlayService.stop();
+                        });
+                      })
                     }
                     break;
                 }
@@ -81,13 +93,24 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
                 var card = deckManager.deck[i];
                 if(card.name === newCard){
                     if(event.shiftKey){
-                        deckManager.remove(card);
-                        deckManager.remove(card);
-                        deckManager.remove(card);
-                        deckManager.remove(card);
+                      deckManager.remove(card).promise.then(function(){
+                        deckManager.remove(card).promise.then(function(){
+                          deckManager.remove(card).promise.then(function(){
+                            deckManager.remove(card).promise.then(function(){
+                              deckManager.get(deckManager.name).promise.then(function(){
+
+                              });
+                            });
+                          })
+                        })
+                      })
                     }
                     else{
-                        deckManager.remove(card);
+                      deckManager.remove(card).promise.then(function(){
+                        deckManager.get(deckManager.name).promise.then(function(){
+                        
+                        });
+                      })
                     }
                     break;
                 }
@@ -300,7 +323,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
 					.replace(/\'/g, "")
 					.replace(/-/g, "_")
 					.replace(/\?/g, "")
-					.replace(/\,/g, "")
+					.replace(/,/g, "")
 					.replace(/:/g, "") + ".jpg");
 		}
 

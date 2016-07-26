@@ -25,50 +25,50 @@
     </md-toolbar>
     <md-tabs md-selected="selectedTabIndex" md-dynamic-height>
 		<md-tab label="Deck Viewer">
-            <br>
-            <md-card class="md-whiteframe-4" ng-show="deckManager.deck.length > 0" layout-gt-md="row" layout-align="center start">
-                <div flex="33"  layout="column" layout-align="center start">
-                    <mana-curve deck="deckManager.deck" flex></mana-curve>
-                </div>
-                <div flex="33" layout="column" layout-align="center start">
-                    <div flex layout="column" layout-align="center center">
-                        <mana-distribution deck="deckManager.deck" colorless="showColorless" flex></mana-distribution> 
-                        <md-button ng-click="toggleColorless()" flex>{{ showColorless?"Hide Colorless Mana":"Show Colorless Mana"}}</md-button>
-                    </div>
-                </div>
-                <div flex="33" layout="column" layout-align="center start">
-                    <mana-source-distribution deck="deckManager.deck" colorless="showColorless" flex></mana-distribution> 
-                </div>
-            </md-card>
-            <md-card  ng-show="deckManager.deck.length == 0">
-                Add cards to generate graphs.
-            </md-card>
+      <br>
+      <md-card class="md-whiteframe-4" ng-show="deckManager.deck.length > 0" layout-gt-md="row" layout-align="center start">
+          <div flex="33"  layout="column" layout-align="center start">
+              <mana-curve deck="deckManager.deck" flex></mana-curve>
+          </div>
+          <div flex="33" layout="column" layout-align="center start">
+              <div flex layout="column" layout-align="center center">
+                  <mana-distribution deck="deckManager.deck" colorless="showColorless" flex></mana-distribution> 
+                  <md-button ng-click="toggleColorless()" flex>{{ showColorless?"Hide Colorless Mana":"Show Colorless Mana"}}</md-button>
+              </div>
+          </div>
+          <div flex="33" layout="column" layout-align="center start">
+              <mana-source-distribution deck="deckManager.deck" colorless="showColorless" flex></mana-distribution> 
+          </div>
+      </md-card>
+      <md-card  ng-show="deckManager.deck.length == 0">
+          Add cards to generate graphs.
+      </md-card>
 			<md-card>
-						<md-table-container>
-							<table md-table>
-								<thead md-head>
-									<th md-column md-numberic><span>Count</span></th>
-									<th md-column><span>Name</span></th>
-									<th md-column><span>Type</span></th>
-									<th md-column><span>Mana</span></th>
-									<th md-column><span>Set</span></th>
-									<th md-column><span><md-icon>collections</md-icon></span></th>
-								</thead>
-								<tbody md-body>
-									<tr md-row ng-repeat="card in deckManager.pretty" ng-odd-class="md-primary" ng-click="showCard(card, $event)">
-										<td md-cell>{{card.count}}</td>
-										<td md-cell>{{card.name}}</td>
-										<td md-cell>{{card.type}}</td>
-                                        <td md-cell>
-                                            <span ng-repeat="symbol in card.manaSymbols track by $index" class='mi mi-mana mi-{{symbol}}'></span>
-                                        </td>
-										<td md-cell>IDL</td>
-										<td md-cell><md-icon>check</md-icon></td>
-									</tr>
-								</tbody>
-							</table>
-						</md-table-container>
-                        <p ng-if="deckManager.pretty.length === 0">Go to the Deck Editor tab to begin adding cards!</p>
+          <md-table-container>
+            <table md-table>
+              <thead md-head>
+                <th md-column md-numberic><span>Count</span></th>
+                <th md-column><span>Name</span></th>
+                <th md-column><span>Type</span></th>
+                <th md-column><span>Mana</span></th>
+                <th md-column><span>Set</span></th>
+                <th md-column><span><md-icon>collections</md-icon></span></th>
+              </thead>
+              <tbody md-body>
+                <tr md-row ng-repeat="card in deckManager.pretty" ng-odd-class="md-primary" ng-click="showCard(card, $event)">
+                  <td md-cell>{{card.count}}</td>
+                  <td md-cell>{{card.name}}</td>
+                  <td md-cell>{{card.type}}</td>
+                    <td md-cell>
+                        <span ng-repeat="symbol in card.manaSymbols track by $index" class='mi mi-mana mi-{{symbol}}'></span>
+                    </td>
+                  <td md-cell>IDL</td>
+                  <td md-cell><md-icon>check</md-icon></td>
+                </tr>
+              </tbody>
+            </table>
+          </md-table-container>
+          <p ng-if="deckManager.pretty.length === 0">Go to the Deck Editor tab to begin adding cards!</p>
 			</md-card>
 		</md-tab>
         <md-tab label="Deck Editor">
