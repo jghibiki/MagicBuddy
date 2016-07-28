@@ -9,7 +9,6 @@ angular.module('magicBuddy', [
   'bsLoadingOverlay',
   'md.data.table',
   'magicBuddy.mainMenu',
-  'magicBuddy.deck',
   'magicBuddy.decks',
   'magicBuddy.collection',
   'magicBuddy.selector',

@@ -13,8 +13,8 @@
                     <md-button aria-label="Delete Deck" class="md-icon-button" ng-click="deleteDeck()">
                         <md-icon>delete</md-icon>
                     </md-button>
-                    <md-button aria-label="Close Deck" class="md-icon-button" ng-click="selectedTabIndex = 0; deckManager.deselectDeck()">
-                        <md-icon>close</md-icon>
+                    <md-button aria-label="Close Deck" class="md-icon-button" >
+                        <md-icon ui-sref="decks.list">close</md-icon>
                     </md-button>
                     <md-divider>
                 </div>

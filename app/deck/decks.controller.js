@@ -1,17 +1,6 @@
 'use strict';
 
-var deckModule = angular.module('magicBuddy.decks', ['ui.router', angularDragula(angular)])
-
-deckModule.config(['$stateProvider', function($stateProvider) {
-
-  $stateProvider
-    .state('decks', {
-        url: '/decks',
-        templateUrl: 'deck/decks.html',
-        controller: 'DecksCtrl',
-        controllerAs: 'decks'
-    });
-}]);
+var deckModule = angular.module('magicBuddy.decks.listing', ['ui.router', angularDragula(angular)])
 
 
 DecksCtrl.$inject = [ 
@@ -49,9 +38,9 @@ function DecksCtrl($scope, deckManager, bsLoadingOverlayService) {
     };
 
 	// get list of decks
-    deckManager.get().promise.then(function(deckNames){
-        this.deckNames = deckNames; 
-        bsLoadingOverlayService.stop();  
-    }.bind(this));
+	deckManager.get().promise.then(function(deckNames){
+		this.deckNames = deckNames; 
+		bsLoadingOverlayService.stop();  
+	}.bind(this));
 
 }

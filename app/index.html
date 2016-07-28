@@ -34,10 +34,10 @@
         <md-content layout-padding ng-controller="NavigationCtrl">
             <md-list>
                 <md-list-item>
-                            <md-button nav-to="/decks/">Deck Builder</md-button>
+					<md-button ui-sref="decks.list">Deck Builder</md-button>
                 </md-list-item>
                 <md-list-item>
-                        <md-button nav-to="/collection">Collection Manager</md-button>
+					<md-button nav-to="/collection">Collection Manager</md-button>
                 </md-list-item>
             </md-list>
         </md-content>
@@ -99,6 +99,7 @@
   <script src="app.js"></script>
   <script src="services.js"></script>
   <script src="mainMenu/mainMenu.js"></script>
+  <script src="deck/decks.module.js"></script>
   <script src="deck/decks.controller.js"></script>
   <script src="deck/deck.controller.js"></script>
   <script src="collection/collection.js"></script>

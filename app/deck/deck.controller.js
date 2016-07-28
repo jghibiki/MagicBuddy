@@ -1,16 +1,7 @@
 'use strict';
 
-var decksModule = angular.module('magicBuddy.deck', ['ui.router', angularDragula(angular)])
+var decksModule = angular.module('magicBuddy.decks.viewer', ['ui.router', angularDragula(angular)])
 
-decksModule.config(['$stateProvider', function($stateProvider) {
-  $stateProvider
-    .state('decks.viewer', {
-        url: '/:deckName',
-        templateUrl: 'deck/deck.html',
-        controller: DeckViewerCtrl,
-        controllerAs: 'deckViewer'
-    });
-}]);
 
 DeckViewerCtrl.$inject = [
     "$stateParams",
@@ -23,6 +14,7 @@ DeckViewerCtrl.$inject = [
     "$sce", 
     "bsLoadingOverlayService"
 ]
+decksModule.controller('DeckViewerCtrl',  DeckViewerCtrl);
 function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaService, $mdDialog, $mdMedia, $sce, bsLoadingOverlayService) {
     // start loader
     bsLoadingOverlayService.start();
@@ -365,8 +357,11 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
 	}
 
     /* Initialization */
-    deckManager.get($stateParams.deckName).promise.finally(function(){
-        bsLoadingOverlayService.stop();  
-    });
+	// deferred 2s to give time for the animation
+	setTimeout(function(){
+		deckManager.get($stateParams.deckName).promise.finally(function(){
+			bsLoadingOverlayService.stop();  
+		});
+	}.bind(this), 2000);
 
 }
