@@ -1,6 +1,4 @@
-
-<md-content ng-show="deckManager.name !== ''">
-
+<md-content>
     <md-toolbar class="md-menu-toolbar md-hue-1" >
         <div layout="row">
             <md-toolbar-filler layout layout-align="center center">
@@ -24,7 +22,7 @@
         </div>
     </md-toolbar>
     <md-tabs md-selected="selectedTabIndex" md-dynamic-height>
-		<md-tab label="Deck Viewer">
+        <md-tab label="Deck Viewer">
       <br>
       <md-card class="md-whiteframe-4" ng-show="deckManager.deck.length > 0" layout-gt-md="row" layout-align="center start">
           <div flex="33"  layout="column" layout-align="center start">
@@ -43,34 +41,34 @@
       <md-card  ng-show="deckManager.deck.length == 0">
           Add cards to generate graphs.
       </md-card>
-			<md-card>
-          <md-table-container>
-            <table md-table>
-              <thead md-head>
-                <th md-column md-numberic><span>Count</span></th>
-                <th md-column><span>Name</span></th>
-                <th md-column><span>Type</span></th>
-                <th md-column><span>Mana</span></th>
-                <th md-column><span>Set</span></th>
-                <th md-column><span><md-icon>collections</md-icon></span></th>
-              </thead>
-              <tbody md-body>
-                <tr md-row ng-repeat="card in deckManager.pretty" ng-odd-class="md-primary" ng-click="showCard(card, $event)">
-                  <td md-cell>{{card.count}}</td>
-                  <td md-cell>{{card.name}}</td>
-                  <td md-cell>{{card.type}}</td>
-                    <td md-cell>
-                        <span ng-repeat="symbol in card.manaSymbols track by $index" class='mi mi-mana mi-{{symbol}}'></span>
-                    </td>
-                  <td md-cell>IDL</td>
-                  <td md-cell><md-icon>check</md-icon></td>
-                </tr>
-              </tbody>
-            </table>
-          </md-table-container>
+          <md-card>
+              <md-table-container>
+                <table md-table>
+                  <thead md-head>
+                    <th md-column md-numberic><span>Count</span></th>
+                    <th md-column><span>Name</span></th>
+                    <th md-column><span>Type</span></th>
+                    <th md-column><span>Mana</span></th>
+                    <th md-column><span>Set</span></th>
+                    <th md-column><span><md-icon>collections</md-icon></span></th>
+                  </thead>
+                  <tbody md-body>
+                    <tr md-row ng-repeat="card in deckManager.pretty" ng-odd-class="md-primary" ng-click="showCard(card, $event)">
+                      <td md-cell>{{card.count}}</td>
+                      <td md-cell>{{card.name}}</td>
+                      <td md-cell>{{card.type}}</td>
+                        <td md-cell>
+                            <span ng-repeat="symbol in card.manaSymbols track by $index" class='mi mi-mana mi-{{symbol}}'></span>
+                        </td>
+                      <td md-cell>IDL</td>
+                      <td md-cell><md-icon>check</md-icon></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </md-table-container>
           <p ng-if="deckManager.pretty.length === 0">Go to the Deck Editor tab to begin adding cards!</p>
-			</md-card>
-		</md-tab>
+          </md-card>
+        </md-tab>
         <md-tab label="Deck Editor">
             <br>
             <md-card class="md-whiteframe-4" ng-show="deckManager.deck.length > 0" layout-gt-md="row" layout-align="center start">
@@ -175,40 +173,4 @@
             </div>
         </md-tab>
     </md-tabs>
-</md-content>
-<md-content>
-    <md-content ng-show="deckManager.name ==''">
-
-        <md-toolbar class="md-hue-1">
-            <div class="md-toolbar-tools">
-                <h2 layout-align="left">Your Decks</h2>
-            </div>
-        </md-toolbar>
-        <md-list class="dense">
-            <md-list-item ng-repeat="deck in deckManager.names">
-                <md-button class="md-list-item-text" ng-click="loadDeck(deck)">{{deck}}</md-button>
-                <md-divider ng-if="!$last"></md-divider>
-            </md-list-item>
-        </md-list>
-        <div>
-            <div ng-if="deckManager.names.length === 0">
-                Create a deck to begin.
-            </div>
-        </div>
-        <br>
-        <md-card md-whiteframe="4" >
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-headline">Create a new deck</span>
-                </md-card-title-text>
-            </md-card-title>
-            <md-card-content>
-                <md-input-container>
-                    <label>New Deck Name</label>
-                    <input type="text" ng-model="newDeckName"/>
-                </md-input-container>
-                <md-button ng-click="createDeck()">Create Deck</md-button>
-            </md-card-content>
-        </md-card>
-    </md-content>
 </md-content>

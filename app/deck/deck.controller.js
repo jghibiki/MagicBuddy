@@ -1,15 +1,29 @@
 'use strict';
 
-angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
+var decksModule = angular.module('magicBuddy.deck', ['ui.router', angularDragula(angular)])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/deck', {
-    templateUrl: 'deck/deck.html',
-    controller: 'DeckCtrl'
-  });
-}])
+decksModule.config(['$stateProvider', function($stateProvider) {
+  $stateProvider
+    .state('decks.viewer', {
+        url: '/:deckName',
+        templateUrl: 'deck/deck.html',
+        controller: DeckViewerCtrl,
+        controllerAs: 'deckViewer'
+    });
+}]);
 
-.controller('DeckCtrl', ["$scope", "deckManager", "cardManager", "dragulaService", "$mdDialog", "$mdMedia", "$sce", "bsLoadingOverlayService", function($scope, deckManager, cardManager, dragulaService, $mdDialog, $mdMedia, $sce, bsLoadingOverlayService) {
+DeckViewerCtrl.$inject = [
+    "$stateParams",
+    "$scope", 
+    "deckManager", 
+    "cardManager", 
+    "dragulaService", 
+    "$mdDialog", 
+    "$mdMedia", 
+    "$sce", 
+    "bsLoadingOverlayService"
+]
+function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaService, $mdDialog, $mdMedia, $sce, bsLoadingOverlayService) {
     // start loader
     bsLoadingOverlayService.start();
     
@@ -64,7 +78,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
                         deckManager.add(card).promise.then(function() {
                           deckManager.add(card).promise.then(function(){
                             deckManager.add(card).promise.then(function(){
-                              deckManager.get(deckManager.name).promise.then(function(){
+                              deckManager.get($stateParams.deckName).promise.then(function(){
                                 bsLoadingOverlayService.stop();
                               });
                             })
@@ -74,7 +88,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
                     }
                     else{
                       deckManager.add(card).promise.then(function(){
-                        deckManager.get(deckManager.name).promise.then(function(){
+                        deckManager.get($stateParams.deckName).promise.then(function(){
                           bsLoadingOverlayService.stop();
                         });
                       })
@@ -97,7 +111,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
                         deckManager.remove(card).promise.then(function(){
                           deckManager.remove(card).promise.then(function(){
                             deckManager.remove(card).promise.then(function(){
-                              deckManager.get(deckManager.name).promise.then(function(){
+                              deckManager.get($stateParams.deckName).promise.then(function(){
 
                               });
                             });
@@ -107,7 +121,7 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
                     }
                     else{
                       deckManager.remove(card).promise.then(function(){
-                        deckManager.get(deckManager.name).promise.then(function(){
+                        deckManager.get($stateParams.deckName).promise.then(function(){
                         
                         });
                       })
@@ -351,8 +365,8 @@ angular.module('magicBuddy.deck', ['ngRoute', angularDragula(angular)])
 	}
 
     /* Initialization */
-    deckManager.get().promise.finally(function(){
+    deckManager.get($stateParams.deckName).promise.finally(function(){
         bsLoadingOverlayService.stop();  
     });
 
-}]);
+}

@@ -2,13 +2,15 @@
 
 // Declare app level module which depends on views, and components
 angular.module('magicBuddy', [
-  'ngRoute',
+  'ui.router',
   'ngMaterial',
+  'ngAnimate',
   'btford.socket-io',
   'bsLoadingOverlay',
   'md.data.table',
   'magicBuddy.mainMenu',
   'magicBuddy.deck',
+  'magicBuddy.decks',
   'magicBuddy.collection',
   'magicBuddy.selector',
   'magicBuddy.viewer',
@@ -20,8 +22,14 @@ angular.module('magicBuddy', [
   'magicBuddy.git',
   'magicBuddy.version'
 ])
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.otherwise({redirectTo: '/'});
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise("/");
+
+  $stateProvider
+    .state('home', {
+        url: '/',
+        templateUrl: 'mainMenu/mainMenu.html'
+    })
 }])
 .factory('socket', function (socketFactory) {
     var mySocket = socketFactory();

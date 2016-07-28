@@ -12,11 +12,11 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/main.css">
   <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css ">
-  <link rel="stylesheet" href="app.css">
   <link rel="stylesheet" href="bower_components/angular-dragula/dist/dragula.min.css">
   <link rel="stylesheet" href="css/magic-font.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link href="bower_components/angular-material-data-table/dist/md-data-table.min.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="app.css">
   <script src="bower_components/html5-boilerplate/dist/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 <body layout="row">
@@ -34,7 +34,7 @@
         <md-content layout-padding ng-controller="NavigationCtrl">
             <md-list>
                 <md-list-item>
-                            <md-button nav-to="/deck">Deck Builder</md-button>
+                            <md-button nav-to="/decks/">Deck Builder</md-button>
                 </md-list-item>
                 <md-list-item>
                         <md-button nav-to="/collection">Collection Manager</md-button>
@@ -76,7 +76,7 @@
                 </div>
             </div>
         </script>
-         <span ng-view bs-loading-overlay flex="none"></span>
+         <span ui-view bs-loading-overlay flex="none"></span>
          <div flex></div>
 
         <div layout-padding layout-align="bottom center" flex="none">
@@ -94,11 +94,13 @@
   <script src="bower_components/angular-animate/angular-animate.js"></script>
   <script src="bower_components/angular-dragula/dist/angular-dragula.js"></script>
   <script src="bower_components/angular-loading-overlay/dist/angular-loading-overlay.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script type="text/javascript" src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
   <script src="app.js"></script>
   <script src="services.js"></script>
   <script src="mainMenu/mainMenu.js"></script>
-  <script src="deck/deck.js"></script>
+  <script src="deck/decks.controller.js"></script>
+  <script src="deck/deck.controller.js"></script>
   <script src="collection/collection.js"></script>
   <script src="selector/selector.js"></script>
   <script src="viewer/viewer.js"></script>

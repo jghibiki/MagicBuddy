@@ -1,0 +1,34 @@
+<md-content>
+
+    <md-toolbar class="md-hue-1">
+        <div class="md-toolbar-tools">
+            <h2 layout-align="left">Your Decks</h2>
+        </div>
+    </md-toolbar>
+    <md-list class="dense">
+        <md-list-item ng-repeat="deck in decks.deckNames">
+            <md-button class="md-list-item-text" ui-sref="decks.viewer({ deckName: deck})" >{{deck}}</md-button>
+            <md-divider ng-if="!$last"></md-divider>
+        </md-list-item>
+    </md-list>
+    <div>
+        <div ng-if="deckManager.names.length === 0">
+            Create a deck to begin.
+        </div>
+    </div>
+    <br>
+    <md-card md-whiteframe="4" >
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Create a new deck</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+            <md-input-container>
+                <label>New Deck Name</label>
+                <input type="text" ng-model="newDeckName"/>
+            </md-input-container>
+            <md-button ng-click="createDeck()">Create Deck</md-button>
+        </md-card-content>
+    </md-card>
+</md-content>
