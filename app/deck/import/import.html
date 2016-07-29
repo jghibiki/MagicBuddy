@@ -1,0 +1,29 @@
+<md-content layout="column">
+    <md-toolbar class="md-menu-toolbar md-hue-1" >
+        <div layout="row">
+            <md-toolbar-filler layout layout-align="center center">
+                <md-icon>file_upload</md-icon>
+            </md-toolbar-filler>
+            <div>
+                <h2 class="md-toolbar-tools">{{vm.deckName}}</h2>
+                <div>
+                    <md-nav-bar md-selected-nav-item="vm.name">
+                      <md-nav-item md-nav-href="#/decks/view/{{vm.deckName}}" name="Viewer">View</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/edit/{{vm.deckName}}" name="Editor">Edit</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/stats/{{vm.deckName}}" name="Statistics">Statistics</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/spoiler/{{vm.deckName}}" name="Visual Spoiler">Visual Spoiler</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/probabilities/{{vm.deckName}}" name="Probabilities">Probabilities</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/notes/{{vm.deckName}}" name="Notes">Notes</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/import/{{vm.deckName}}" name="Import">Import</md-nav-item>
+                    </md-nav-bar>
+                </div>
+            </div>
+        </div>
+    </md-toolbar>
+    <md-card label="Bulk Import" layout-padding>
+        <div> 
+            <textarea ng-model="vm.importCards"></textarea> 
+            <md-button ng-click="vm.bulkImport()">Import</md-button>
+        </div>
+    </md-card>
+</md-content>

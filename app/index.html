@@ -34,10 +34,10 @@
         <md-content layout-padding ng-controller="NavigationCtrl">
             <md-list>
                 <md-list-item>
-					<md-button ui-sref="decks.list">Deck Builder</md-button>
+					<md-button ui-sref="decks.list">My Decks</md-button>
                 </md-list-item>
                 <md-list-item>
-					<md-button nav-to="/collection">Collection Manager</md-button>
+					<md-button nav-to="/collection">My Collection</md-button>
                 </md-list-item>
             </md-list>
         </md-content>
@@ -100,8 +100,14 @@
   <script src="services.js"></script>
   <script src="mainMenu/mainMenu.js"></script>
   <script src="deck/decks.module.js"></script>
-  <script src="deck/decks.controller.js"></script>
-  <script src="deck/deck.controller.js"></script>
+  <script src="deck/viewer/viewer.controller.js"></script>
+  <script src="deck/listing/listing.controller.js"></script>
+  <script src="deck/editor/editor.controller.js"></script>
+  <script src="deck/stats/stats.controller.js"></script>
+  <script src="deck/spoiler/spoiler.controller.js"></script>
+  <script src="deck/probabilities/probabilities.controller.js"></script>
+  <script src="deck/notes/notes.controller.js"></script>
+  <script src="deck/import/import.controller.js"></script>
   <script src="collection/collection.js"></script>
   <script src="selector/selector.js"></script>
   <script src="viewer/viewer.js"></script>

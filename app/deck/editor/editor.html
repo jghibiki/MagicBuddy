@@ -1,0 +1,62 @@
+<md-content layout="column">
+    <md-toolbar class="md-menu-toolbar md-hue-1" >
+        <div layout="row">
+            <md-toolbar-filler layout layout-align="center center">
+                <md-icon>edit</md-icon>
+            </md-toolbar-filler>
+            <div>
+                <h2 class="md-toolbar-tools">{{vm.deckName}}</h2>
+                <div>
+                    <md-nav-bar md-selected-nav-item="vm.name">
+                      <md-nav-item md-nav-href="#/decks/view/{{vm.deckName}}" name="Viewer">View</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/edit/{{vm.deckName}}" name="Editor">Edit</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/stats/{{vm.deckName}}" name="Statistics">Statistics</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/spoiler/{{vm.deckName}}" name="Visual Spoiler">Visual Spoiler</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/probabilities/{{vm.deckName}}" name="Probabilities">Probabilities</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/notes/{{vm.deckName}}" name="Notes">Notes</md-nav-item>
+                      <md-nav-item md-nav-href="#/decks/import/{{vm.deckName}}" name="Import">Import</md-nav-item>
+                    </md-nav-bar>
+                </div>
+                <div>
+                    <md-button aria-label="Save Deck" class="md-icon-button" ng-click="vm.saveDeck()">
+                        <md-icon>save</md-icon>
+                    </md-button>
+                    <md-divider>
+                </div>
+            </div>
+        </div>
+    </md-toolbar>
+    <md-card class="md-whiteframe-4" ng-show="vm.deckManager.deck.length > 0" layout-gt-md="row" layout-align="center start" layout-padding>
+        <div flex="33"  layout="column" layout-align="center start">
+            <mana-curve deck="vm.deckManager.deck" flex></mana-curve>
+        </div>
+        <div flex="33" layout="column" layout-align="center start">
+            <div flex layout="column" layout-align="center center">
+                <mana-distribution deck="vm.deckManager.deck" colorless="vm.showColorless" flex></mana-distribution> 
+                <md-button ng-click="vm.toggleColorless()" flex>{{ vm.showColorless?"Hide Colorless Mana":"Show Colorless Mana"}}</md-button>
+            </div>
+        </div>
+        <div flex="33" layout="column" layout-align="center start">
+            <mana-source-distribution deck="vm.deckManager.deck" colorless="showColorless" flex></mana-distribution> 
+        </div>
+    </md-card>
+    <md-card  ng-show="vm.deckManager.deck.length == 0">
+        Add cards to generate graphs.
+    </md-card>
+    <md-card  layout="row" layout-padding>
+        <div flex="20" ng-include="'selector/selector.html'">
+        </div>
+        <div flex="noshrink" >
+            <md-content dragula='"bag-one"' class="copy-target"  style="border-style: solid; border-width: 1px 1px 1px 1px; padding: 5px; overflow-y: scroll; height: 300px;; ">
+                <div ng-repeat="card in vm.deckManager.pretty"  class="you-may-remove-us" ng-mouseover="viewCard($index)" ng-mouseleave="hideCard()" style="cursor: pointer">{{card.count}} {{ card.name }}</div>
+                <p ng-if="vm.deckManager.pretty.length === 0">Drop cards here to add them to your deck.</p>
+            </md-content>
+            <md-content dragula='"bag-one"' class="remove-target" style="border-style: solid; border-width: 0px 1px 1px 1px; padding: 5px;">
+                <p>Drag cards here to delete them.</p>
+            </md-content>
+            <br>
+        </div>
+        <div flex="20" ng-include="'viewer/viewer.html'">
+        </div>
+    </md-card>
+</md-content>

@@ -1,6 +1,6 @@
 'use strict';
 
-var decksModule = angular.module('magicBuddy.decks.viewer', ['ui.router', angularDragula(angular)])
+var decksModule = angular.module('magicBuddy.decks.editor', ['ui.router', angularDragula(angular)])
 
 
 DeckViewerCtrl.$inject = [
@@ -14,18 +14,21 @@ DeckViewerCtrl.$inject = [
     "$sce", 
     "bsLoadingOverlayService"
 ]
-decksModule.controller('DeckViewerCtrl',  DeckViewerCtrl);
+decksModule.controller('DeckEditorCtrl',  DeckViewerCtrl);
 function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaService, $mdDialog, $mdMedia, $sce, bsLoadingOverlayService) {
     // start loader
     bsLoadingOverlayService.start();
+    var vm = this;
     
+    vm.name = "Editor";
+    vm.deckName = $stateParams.deckName;
     $scope.type = "deck";
-	$scope.selected = [];
-    $scope.deckManager = deckManager;
-    $scope.newDeckName = "";
-    $scope.importCards = "";
-    $scope.showColorless = false;
-    $scope.startingHand = {
+	vm.selected = [];
+    vm.deckManager = deckManager;
+    vm.newDeckName = "";
+    vm.importCards = "";
+    vm.showColorless = false;
+    vm.startingHand = {
         deck: [],
         cardCount: 7,
         hand: [],
@@ -66,11 +69,11 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
                 if(card.name === newCard){
                     bsLoadingOverlayService.start();
                     if(event.shiftKey){
-                      deckManager.add(card).promise.then(function(){
-                        deckManager.add(card).promise.then(function() {
-                          deckManager.add(card).promise.then(function(){
-                            deckManager.add(card).promise.then(function(){
-                              deckManager.get($stateParams.deckName).promise.then(function(){
+                      vm.deckManager.add(card).promise.then(function(){
+                        vm.deckManager.add(card).promise.then(function() {
+                          vm.deckManager.add(card).promise.then(function(){
+                            vm.deckManager.add(card).promise.then(function(){
+                              vm.deckManager.get($stateParams.deckName).promise.then(function(){
                                 bsLoadingOverlayService.stop();
                               });
                             })
@@ -79,8 +82,8 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
                       })
                     }
                     else{
-                      deckManager.add(card).promise.then(function(){
-                        deckManager.get($stateParams.deckName).promise.then(function(){
+                      vm.deckManager.add(card).promise.then(function(){
+                        vm.deckManager.get($stateParams.deckName).promise.then(function(){
                           bsLoadingOverlayService.stop();
                         });
                       })
@@ -95,15 +98,15 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
             var count = str.substr(0, str.indexOf(' '));
             var newCard = str.substr(str.indexOf(' ')+1);
             
-            for(var i=0; i<deckManager.deck.length; i++){
-                var card = deckManager.deck[i];
+            for(var i=0; i<vm.deckManager.deck.length; i++){
+                var card = vm.deckManager.deck[i];
                 if(card.name === newCard){
                     if(event.shiftKey){
-                      deckManager.remove(card).promise.then(function(){
-                        deckManager.remove(card).promise.then(function(){
-                          deckManager.remove(card).promise.then(function(){
-                            deckManager.remove(card).promise.then(function(){
-                              deckManager.get($stateParams.deckName).promise.then(function(){
+                      vm.deckManager.remove(card).promise.then(function(){
+                        vm.deckManager.remove(card).promise.then(function(){
+                          vm.deckManager.remove(card).promise.then(function(){
+                            vm.deckManager.remove(card).promise.then(function(){
+                              vm.deckManager.get($stateParams.deckName).promise.then(function(){
 
                               });
                             });
@@ -112,8 +115,8 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
                       })
                     }
                     else{
-                      deckManager.remove(card).promise.then(function(){
-                        deckManager.get($stateParams.deckName).promise.then(function(){
+                      vm.deckManager.remove(card).promise.then(function(){
+                        vm.deckManager.get($stateParams.deckName).promise.then(function(){
                         
                         });
                       })
@@ -127,69 +130,45 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
     });
 
 
-    $scope.createDeck = function(){
-        if($scope.newDeckName.indexOf("/") != -1){
-            $mdDialog.show(
-                $mdDialoDialog.alert()
-                .clickOutsideToClose(true)
-                .title("Uh oh!")
-                .textContent('Deck names cannot contain "/"')
-                .ariaLabel('Deck names cannot contain "/"')
-                .ok('Got it!')
-            );
-        }
-        else{
-            deckManager.create($scope.newDeckName);
-            $scope.newDeckName = "";
-        }
-    };
 
-    $scope.saveDeck = function(){ deckManager.save();
+    vm.saveDeck = function(){ vm.deckManager.save();
     };
     
-    $scope.deleteDeck = function(){
-        deckManager.delete();
-        deckManager.name = "";
-        deckManager.get();
+    vm.deleteDeck = function(){
+        vm.deckManager.delete();
+        vm.deckManager.name = "";
+        vm.deckManager.get();
     };
 
-    $scope.loadDeck = function(name){
-        bsLoadingOverlayService.start();
-        deckManager.selectDeck(name);
-        
-        // reload deck if it not the previously selected deck
-        if(!deckManager.isPreviousDeck(name)){
-            $scope.deckManager.get(name).promise.then(function(){
-                $scope.deckManager.getNotes().promise.finally(function(){
-                    bsLoadingOverlayService.stop();
-                });
-            });
-        }
-        else{
-            bsLoadingOverlayService.stop();
-        }
+    vm.loadDeck = function(){
+        bsLoadingOverlayService.start();  
+        vm.deckName = $stateParams.deckName;
+        vm.deckManager.selectDeck(vm.deckName);
+		vm.deckManager.get($stateParams.deckName).promise.finally(function(){
+			bsLoadingOverlayService.stop();  
+		});
     };
 
-    $scope.viewCard = function(index){
-        var card = deckManager.pretty[index];
-        $scope.$broadcast("viewer:showCard", card);
+    vm.viewCard = function(index){
+        var card = vm.deckManager.pretty[index];
+        vm.$broadcast("viewer:showCard", card);
     }
 
-    $scope.hideCard = function(){
-        $scope.$broadcast("viewer:hideCard");
+    vm.hideCard = function(){
+        vm.$broadcast("viewer:hideCard");
     }
 
 
-    $scope.bulkImport = function(){
-        deckManager.bulkImport($scope.importCards);
-        $scope.importCards = "";
+    vm.bulkImport = function(){
+        vm.deckManager.bulkImport(vm.importCards);
+        vm.importCards = "";
     }
 
-    $scope.toggleColorless = function(){
-        $scope.showColorless = !($scope.showColorless);
+    vm.toggleColorless = function(){
+        vm.showColorless = !(vm.showColorless);
     }
 
-    $scope.getUrl = function(card){
+    vm.getUrl = function(card){
         var url = encodeURI(card.name
                 .toLowerCase()
                 .replace(/ /g, "_")
@@ -204,9 +183,9 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
 
     /* Starting Hand Functions */
 
-    $scope.newHand = function(){
-       $scope.startingHand.hand = [];
-       if(deckManager.deck.length < 7){
+    vm.newHand = function(){
+       vm.startingHand.hand = [];
+       if(vm.deckManager.deck.length < 7){
             $mdDialog.show(
                 $mdDialog.alert()
                 .clickOutsideToClose(true)
@@ -215,27 +194,27 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
                 .ariaLabel("Please add at least 7 cards to your deck before using the Starting Hand Tool.")
                 .ok('Got it!')
             );
-            $scope.selectedTabIndex = 0;
+            vm.selectedTabIndex = 0;
             return;
        }
-       $scope.startingHand.deck = deckManager.deck.slice(0);
-       $scope.startingHand.cardCount = 7;
+       vm.startingHand.deck = vm.deckManager.deck.slice(0);
+       vm.startingHand.cardCount = 7;
         
-       for(var i=0; i<$scope.startingHand.cardCount; i++){
-           $scope.addCardToHand();
+       for(var i=0; i<vm.startingHand.cardCount; i++){
+           vm.addCardToHand();
         }
 
        
     }
 
-    $scope.addCardToHand = function(){
-        if($scope.startingHand.deck.length > 0){
-            var randomCard = $scope.startingHand.deck[ Math.floor( Math.random() * $scope.startingHand.deck.length )]
+    vm.addCardToHand = function(){
+        if(vm.startingHand.deck.length > 0){
+            var randomCard = vm.startingHand.deck[ Math.floor( Math.random() * vm.startingHand.deck.length )]
 
-            $scope.startingHand.hand.push(randomCard);
+            vm.startingHand.hand.push(randomCard);
 
-            var index = $scope.startingHand.deck.indexOf(randomCard);
-            if(index > -1) $scope.startingHand.deck.splice(index, 1);
+            var index = vm.startingHand.deck.indexOf(randomCard);
+            if(index > -1) vm.startingHand.deck.splice(index, 1);
         }
         else{
             $mdDialog.show(
@@ -249,16 +228,16 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
         }
     }
 
-    $scope.mulligan = function(){
+    vm.mulligan = function(){
 
-       var cardCount = $scope.startingHand.hand.length - 1
+       var cardCount = vm.startingHand.hand.length - 1
         if(cardCount > 0){
-           $scope.startingHand.deck = deckManager.deck.slice(0);
-           $scope.startingHand.hand = [];
-           $scope.startingHand.cardCount = cardCount;
+           vm.startingHand.deck = vm.deckManager.deck.slice(0);
+           vm.startingHand.hand = [];
+           vm.startingHand.cardCount = cardCount;
 
-           for(var i=0; i<$scope.startingHand.cardCount; i++){
-               $scope.addCardToHand();
+           for(var i=0; i<vm.startingHand.cardCount; i++){
+               vm.addCardToHand();
             }
         }
         else{
@@ -274,8 +253,8 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
     }
 
 
-	$scope.showCard = function(card, ev){
-		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+	vm.showCard = function(card, ev){
+		var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && vm.customFullscreen;
 		$mdDialog.show({
 		  controller: DialogController,
 		  templateUrl: 'deck/card.tmpl.html',
@@ -287,34 +266,34 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
 			card: card
 		  }
 		})
-		$scope.$watch(function() {
+		vm.$watch(function() {
 		  return $mdMedia('xs') || $mdMedia('sm');
 		}, function(wantsFullScreen) {
-		  $scope.customFullscreen = (wantsFullScreen === true);
+		  vm.customFullscreen = (wantsFullScreen === true);
 		});
 	}    
 
-	function DialogController($scope, $mdDialog, card) {
-		$scope.card = card
-		$scope.symbolRe = /[^{}]+(?=\})/g;
-		$scope.viewerMode = "both";
+	function DialogController(vm, $mdDialog, card) {
+		vm.card = card
+		vm.symbolRe = /[^{}]+(?=\})/g;
+		vm.viewerMode = "both";
 
-		$scope.hide = function() {
+		vm.hide = function() {
 		  $mdDialog.hide();
 		};
-		$scope.cancel = function() {
+		vm.cancel = function() {
 		  $mdDialog.cancel();
 		};
-		$scope.answer = function(answer) {
+		vm.answer = function(answer) {
 		  $mdDialog.hide(answer);
 		};
 
 
-		$scope.manaSymbols = function(){
+		vm.manaSymbols = function(){
 			var symbols = [];
-			if($scope.card.type !== "Land" && $scope.card.type !== "Scheme"){
+			if(vm.card.type !== "Land" && vm.card.type !== "Scheme"){
 
-			  $scope.card.manaCost.match($scope.symbolRe).forEach(function(el){
+			  vm.card.manaCost.match(vm.symbolRe).forEach(function(el){
 				  symbols.push(el.toLowerCase());
 			  });
 			}
@@ -322,8 +301,8 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
 			return symbols
 		}
 
-		$scope.getUnderName = function(){
-			return encodeURI($scope.card.name
+		vm.getUnderName = function(){
+			return encodeURI(vm.card.name
 					.toLowerCase()
 					.replace(/ /g, "_")
 					.replace(/\'/g, "")
@@ -333,21 +312,21 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
 					.replace(/:/g, "") + ".jpg");
 		}
 
-		$scope.showImage = function(){
-			return $scope.viewerMode == "image";
+		vm.showImage = function(){
+			return vm.viewerMode == "image";
 		}
 
-		$scope.showText = function(){
-			return $scope.viewerMode == "text";
+		vm.showText = function(){
+			return vm.viewerMode == "text";
 		}
 
-		$scope.showBoth = function(){
-			return $scope.viewerMode == "both";
+		vm.showBoth = function(){
+			return vm.viewerMode == "both";
 		}
 
-		$scope.cardText = function(){
-			var text = $scope.card.text;
-			text = text.replace($scope.symbolRe, function(x){
+		vm.cardText = function(){
+			var text = vm.card.text;
+			text = text.replace(vm.symbolRe, function(x){
 				return "<span class='mi mi-mana mi-" + x.toLowerCase() + "'></span>"
 			});
 			text = text.replace(/{/g, "").replace(/}/g, "");
@@ -359,9 +338,7 @@ function DeckViewerCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
     /* Initialization */
 	// deferred 2s to give time for the animation
 	setTimeout(function(){
-		deckManager.get($stateParams.deckName).promise.finally(function(){
-			bsLoadingOverlayService.stop();  
-		});
+        vm.loadDeck();
 	}.bind(this), 2000);
 
 }

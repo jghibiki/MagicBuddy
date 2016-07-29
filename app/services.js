@@ -256,21 +256,15 @@ mbServices.factory("deckManager", ["socket", "$q", function(socket, $q){
     /* Save */
 
     deckManager.save = function(){
-        deckManager.promise = $q.defer();
-        dispatchOrChain(saveDeck, []);
-        return deckManager.promise;
+        var promise = $q(function(resolve, reject){
+            socket.on("deck:save::response", function(){
+                resolve();
+            });
+            socket.emit("deck:save", deckManager.name);
+        });
+        return promise;
     };
 
-    function saveDeck(){
-        deckManager.promise = $q.defer();
-        socket.emit("deck:save", deckManager.name);
-        return deckManager.promise;
-    }
-
-    socket.on("deck:save::respose", function(){
-        deckManager.promise.resolve();
-        deckManager.promise = null;
-    });
 
     /* Delete */
 
@@ -313,22 +307,22 @@ mbServices.factory("deckManager", ["socket", "$q", function(socket, $q){
 
     /* Save notes */
     deckManager.saveNotes = function(){
-        dispatchOrChain(saveNotes, []);
+        var promise = $q(function(resolve, reject){
+            // expect response
+            socket.on("deck:notes:save::response", function(){
+                resolve();
+            });
+            
+            // dispatch request
+            socket.emit("deck:notes:save", {
+                "name": deckManager.name,
+                "notes": deckManager.notes 
+            });
+            
+        })
+
+        return promise;
     };
-
-    function saveNotes(){
-        deckManager.promise = $q.defer();
-        socket.emit("deck:notes:save", {
-            "name": deckManager.name,
-            "notes": deckManager.notes 
-        });
-        return deckManager.promise;
-    }
-
-    socket.on("deck:notes:save::response", function(){
-        deckManager.promise.resolve();
-        deckManager.promise = null;
-    });
 
     /* Get Notes */
 

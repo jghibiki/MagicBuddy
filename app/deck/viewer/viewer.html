@@ -1,0 +1,65 @@
+<md-content>
+    <md-toolbar class="md-menu-toolbar md-hue-1" >
+        <div layout="row">
+            <md-toolbar-filler layout layout-align="center center">
+                <md-icon>view_list</md-icon>
+            </md-toolbar-filler>
+            <div>
+                <h2 class="md-toolbar-tools">{{ vm.deckName }}</h2>
+                <md-nav-bar md-selected-nav-item="vm.name">
+                  <md-nav-item md-nav-href="#/decks/view/{{vm.deckName}}" name="Viewer">View</md-nav-item>
+                  <md-nav-item md-nav-href="#/decks/edit/{{vm.deckName}}" name="Editor">Edit</md-nav-item>
+                  <md-nav-item md-nav-href="#/decks/stats/{{vm.deckName}}" name="Statistics">Statistics</md-nav-item>
+                  <md-nav-item md-nav-href="#/decks/spoiler/{{vm.deckName}}" name="Visual Spoiler">Visual Spoiler</md-nav-item>
+                  <md-nav-item md-nav-href="#/decks/probabilities/{{vm.deckName}}" name="Probabilities">Probabilities</md-nav-item>
+                  <md-nav-item md-nav-href="#/decks/notes/{{vm.deckName}}" name="Notes">Notes</md-nav-item>
+                  <md-nav-item md-nav-href="#/decks/import/{{vm.deckName}}" name="Import">Import</md-nav-item>
+                </md-nav-bar>
+            </div>
+        </div>
+    </md-toolbar>
+    <md-card class="md-whiteframe-4" ng-show="vm.deckManager.deck.length > 0" layout-gt-md="row" layout-align="center start" layout-padding>
+        <div flex="33"  layout="column" layout-align="center start">
+            <mana-curve deck="vm.deckManager.deck" flex></mana-curve>
+        </div>
+        <div flex="33" layout="column" layout-align="center start">
+            <div flex layout="column" layout-align="center center">
+                <mana-distribution deck="vm.deckManager.deck" colorless="vm.showColorless" flex></mana-distribution> 
+                <md-button ng-click="vm.toggleColorless()" flex>{{ vm.showColorless?"Hide Colorless Mana":"Show Colorless Mana"}}</md-button>
+            </div>
+        </div>
+        <div flex="33" layout="column" layout-align="center start">
+            <mana-source-distribution deck="vm.deckManager.deck" colorless="showColorless" flex></mana-distribution> 
+        </div>
+    </md-card>
+    <md-card  ng-show="vm.deckManager.deck.length == 0" layout-padding>
+        Add cards to generate graphs.
+    </md-card>
+    <md-card layout-padding>
+        <md-table-container>
+          <table md-table>
+            <thead md-head>
+              <th md-column md-numberic><span>Count</span></th>
+              <th md-column><span>Name</span></th>
+              <th md-column><span>Type</span></th>
+              <th md-column><span>Mana</span></th>
+              <th md-column><span>Set</span></th>
+              <th md-column><span><md-icon>collections</md-icon></span></th>
+            </thead>
+            <tbody md-body>
+              <tr md-row ng-repeat="card in vm.deckManager.pretty" ng-odd-class="md-primary" ng-click="showCard(card, $event)">
+                <td md-cell>{{card.count}}</td>
+                <td md-cell>{{card.name}}</td>
+                <td md-cell>{{card.type}}</td>
+                  <td md-cell>
+                      <span ng-repeat="symbol in card.manaSymbols track by $index" class='mi mi-mana mi-{{symbol}}'></span>
+                  </td>
+                <td md-cell>IDL</td>
+                <td md-cell><md-icon>check</md-icon></td>
+              </tr>
+            </tbody>
+          </table>
+        </md-table-container>
+        <p ng-if="vm.deckManager.pretty.length === 0">Open the deck editor to begin adding cards!</p>
+    </md-card>
+</md-content>
