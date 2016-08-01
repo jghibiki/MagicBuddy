@@ -11,7 +11,8 @@ angular.module('magicBuddy.decks', [
     'magicBuddy.decks.spoiler',
     'magicBuddy.decks.probabilities',
     'magicBuddy.decks.notes',
-    'magicBuddy.decks.import'
+    'magicBuddy.decks.import',
+    'magicBuddy.decks.sim'
 
 ])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
@@ -68,6 +69,12 @@ angular.module('magicBuddy.decks', [
         url: '/import/:deckName',
         templateUrl: 'deck/import/import.html',
         controller: 'DeckImportCtrl',
+        controllerAs: 'vm'
+    })
+    .state('decks.simulator', {
+        url: '/simulator/:deckName',
+        templateUrl: 'deck/simulator/simulator.html',
+        controller: 'DeckStartingHandSimCtrl',
         controllerAs: 'vm'
     });
 }])

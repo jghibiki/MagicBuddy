@@ -2,7 +2,7 @@
     <md-toolbar class="md-menu-toolbar md-hue-1" >
         <div layout="row">
             <md-toolbar-filler layout layout-align="center center">
-                <md-icon>note</md-icon>
+                <md-icon>edit</md-icon>
             </md-toolbar-filler>
             <div>
                 <h2 class="md-toolbar-tools">{{vm.deckName}}</h2>
@@ -18,21 +18,20 @@
                       <md-nav-item md-nav-href="#/decks/import/{{vm.deckName}}" name="Import">Import</md-nav-item>
                     </md-nav-bar>
                 </div>
-                <div>
-                    <md-button aria-label="Save Deck" class="md-icon-button" ng-click="vm.saveNotes()">
-                        <md-icon>save</md-icon>
-                    </md-button>
-                </div>
             </div>
         </div>
     </md-toolbar>
-    <md-card layout-padding>
-        <div>
-            <textarea ng-model="vm.deckManager.notes" style="height:90%; width:90%;"></textarea>
-        </div>
-        <div>
-            <button ng-click="vm.deckManager.saveNotes()">Save Notes</button>
-        </div>
-    </md-card>
+
+    <!-- starting hand -->
+    <br>
+    <div>
+        <button ng-click="vm.newHand()">New Hand</button>
+        <button ng-click="vm.addCardToHand()">Add Another Card</button>
+        <button ng-click="vm.mulligan()">Mulligan</button>
+    </div>
+    <br>
+    <div>
+        <image ng-repeat="card in vm.startingHand.hand" ng-src="{{ vm.getUrl(card) }}" />
+    </div>
 
 </md-content>
