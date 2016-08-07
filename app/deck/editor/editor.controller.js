@@ -154,11 +154,11 @@ function DeckEditorCtrl($stateParams, $scope, deckManager, cardManager, dragulaS
 
     vm.viewCard = function(index){
         var card = vm.deckManager.pretty[index];
-        vm.$broadcast("viewer:showCard", card);
+        $scope.$broadcast("viewer:showCard", card);
     }
 
     vm.hideCard = function(){
-        vm.$broadcast("viewer:hideCard");
+        $scope.$broadcast("viewer:hideCard");
     }
 
 

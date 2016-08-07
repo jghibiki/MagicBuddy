@@ -49,7 +49,7 @@
         </div>
         <div flex="noshrink" >
             <md-content dragula='"bag-one"' class="copy-target"  style="border-style: solid; border-width: 1px 1px 1px 1px; padding: 5px; overflow-y: scroll; height: 300px;; ">
-                <div ng-repeat="card in vm.deckManager.pretty"  class="you-may-remove-us" ng-mouseover="viewCard($index)" ng-mouseleave="hideCard()" style="cursor: pointer">{{card.count}} {{ card.name }}</div>
+                <div ng-repeat="card in vm.deckManager.pretty"  class="you-may-remove-us" ng-mouseover="vm.viewCard($index)" ng-mouseleave="vm.hideCard()" style="cursor: pointer">{{card.count}} {{ card.name }}</div>
                 <p ng-if="vm.deckManager.pretty.length === 0">Drop cards here to add them to your deck.</p>
             </md-content>
             <md-content dragula='"bag-one"' class="remove-target" style="border-style: solid; border-width: 0px 1px 1px 1px; padding: 5px;">
