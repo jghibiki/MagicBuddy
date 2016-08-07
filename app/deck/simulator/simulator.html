@@ -24,11 +24,13 @@
 
     <!-- starting hand -->
     <br>
-    <div>
-        <button ng-click="vm.newHand()">New Hand</button>
-        <button ng-click="vm.addCardToHand()">Add Another Card</button>
-        <button ng-click="vm.mulligan()">Mulligan</button>
-    </div>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <md-button ng-click="vm.newHand()">New Hand</md-button>
+            <md-button ng-click="vm.addCardToHand()">Add Card</md-button>
+            <md-button ng-click="vm.mulligan()">Mulligan</md-button>
+        </div>
+    </md-toolbar>
     <br>
     <div>
         <image ng-repeat="card in vm.startingHand.hand" ng-src="{{ vm.getUrl(card) }}" />

@@ -18,20 +18,15 @@
                       <md-nav-item md-nav-href="#/decks/import/{{vm.deckName}}" name="Import">Import</md-nav-item>
                     </md-nav-bar>
                 </div>
-                <div>
-                    <md-button aria-label="Save Deck" class="md-icon-button" ng-click="vm.saveNotes()">
-                        <md-icon>save</md-icon>
-                    </md-button>
-                </div>
             </div>
         </div>
     </md-toolbar>
     <md-card layout-padding>
         <div>
-            <textarea ng-model="vm.deckManager.notes" style="height:90%; width:90%;"></textarea>
+            <textarea ng-model="vm.deckManager.notes" style="height:100%; width:90%;"></textarea>
         </div>
         <div>
-            <button ng-click="vm.deckManager.saveNotes()">Save Notes</button>
+            <md-button ng-click="vm.deckManager.saveNotes()">Save Notes</md-button>
         </div>
     </md-card>
 
