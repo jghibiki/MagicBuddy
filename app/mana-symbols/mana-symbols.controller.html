@@ -1,0 +1,4 @@
+<span>
+    <span ng-repeat="symbol in hybridSymbols" class="mi-split"><span class="mi mi-{{ symbol[0] }}"></span><span class="mi mi-{{ symbol[1] }}"></span></span>
+    <span ng-repeat="symbol in manaSymbols track by $index" class="mi mi-mana mi-{{symbol}}"></span>
+</span>

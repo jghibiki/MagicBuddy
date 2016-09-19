@@ -1,6 +1,6 @@
 'use strict';
 
-var decksModule = angular.module('magicBuddy.decks.editor', ['ui.router', angularDragula(angular)])
+var decksModule = angular.module('magicBuddy.decks')
 
 DeckViewerCtrl.$inject = [
     "$stateParams",

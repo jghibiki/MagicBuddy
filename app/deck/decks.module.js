@@ -4,16 +4,17 @@
 angular.module('magicBuddy.decks', [
     'ui.router',
     'ngMaterial',
+    'magicBuddy.manaSymbols',
+
     'magicBuddy.decks.listing',
-    'magicBuddy.decks.viewer',
-    'magicBuddy.decks.editor',
     'magicBuddy.decks.stats',
     'magicBuddy.decks.spoiler',
     'magicBuddy.decks.probabilities',
     'magicBuddy.decks.notes',
     'magicBuddy.decks.import',
-    'magicBuddy.decks.sim'
+    'magicBuddy.decks.sim',
 
+    angularDragula(angular)
 ])
 .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 

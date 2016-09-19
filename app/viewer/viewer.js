@@ -17,17 +17,6 @@ angular.module('magicBuddy.viewer', [angularDragula(angular)])
         $scope.viewerCard = null;
     })
 
-    $scope.manaSymbols = function(){
-        var symbols = [];
-        if($scope.viewerCard.type !== "Land" && $scope.viewerCard.type !== "Scheme"){
-
-          $scope.viewerCard.manaCost.match($scope.symbolRe).forEach(function(el){
-              symbols.push(el.toLowerCase());
-          });
-        }
-
-        return symbols
-    }
 
     $scope.getUnderName = function(){
         return encodeURI($scope.viewerCard.name
@@ -55,11 +44,16 @@ angular.module('magicBuddy.viewer', [angularDragula(angular)])
 
     $scope.cardText = function(){
         var text = $scope.viewerCard.text;
-        text = text.replace($scope.symbolRe, function(x){
-            return "<span class='mi mi-mana mi-" + x.toLowerCase() + "'></span>"
-        });
-        text = text.replace(/{/g, "").replace(/}/g, "");
-        return $sce.trustAsHtml(text);
+        if(text !== null &&
+            text !== undefined &&
+            text !== ""){
+
+            text = text.replace($scope.symbolRe, function(x){
+                return '<mana-symbols symbol="' + x.toLowerCase() + '"></span>'
+            });
+            text = text.replace(/{/g, "").replace(/}/g, "");
+            return $sce.trustAsHtml(text);
+        }
     }
 
 

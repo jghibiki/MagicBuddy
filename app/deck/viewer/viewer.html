@@ -48,12 +48,14 @@
               <th md-column><span><md-icon>collections</md-icon></span></th>
             </thead>
             <tbody md-body>
-              <tr md-row ng-repeat="card in vm.deckManager.pretty" ng-odd-class="md-primary" ng-click="showCard(card, $event)">
+              <tr md-row ng-repeat="card in vm.deckManager.pretty" ng-odd-class="md-primary" ng-click="vm.showCard(card, $event)">
                 <td md-cell>{{card.count}}</td>
                 <td md-cell>{{card.name}}</td>
                 <td md-cell>{{card.type}}</td>
                   <td md-cell>
-                      <span ng-repeat="symbol in card.manaSymbols track by $index" class='mi mi-mana mi-{{symbol}}'></span>
+                    <div>
+                        <mana-symbols card="card"></mana-symbols>
+                    </div>
                   </td>
                 <td md-cell>IDL</td>
                 <td md-cell><md-icon>check</md-icon></td>

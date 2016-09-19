@@ -18,7 +18,8 @@
     "angular-material-data-table": "^0.10.9",
     "angular-loading-overlay": "^1.1.1",
     "angular-ui-router": "^0.3.1",
-    "angular-material": "master"
+    "angular-material": "master",
+    "jquery": "^3.1.0"
   },
   "resolutions": {
     "angular": "1.5.7"

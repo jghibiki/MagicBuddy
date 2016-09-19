@@ -14,9 +14,9 @@
             <div>
                 <b>{{viewerCard.name}}</b>
             </div>
-            <div>
-                <span ng-repeat="symbol in manaSymbols() track by $index" class="mi mi-mana mi-{{symbol}}"></span>
-            </div>
+                <div>
+                    <mana-symbols card="viewerCard"></mana-symbols>
+                </div>
             <div>
                 Type: <span class="mi mi-{{viewerCard.type.toLowerCase()}}"></span>{{viewerCard.type}}
             </div>
@@ -24,7 +24,7 @@
                 Subtypes: <span ng-repeat="type in viewerCard.subtypes">{{$first ? '' : $last ? ' and ' : ', '}}{{type}}</span>    
             </div>
             <div>
-                Text: <span ng-bind-html="cardText()"></span>
+                Text: <mana-symbols-text text="viewerCard.text"></mana-symbols-text>
             </div>
         </div>
         <div ng-if="showBoth()" class="pure-g">
@@ -36,7 +36,7 @@
                     <b>{{viewerCard.name}}</b>
                 </div>
                 <div>
-                    <span ng-repeat="symbol in manaSymbols() track by $index" class="mi mi-mana mi-{{symbol}}"></span>
+                    <mana-symbols card="viewerCard"></mana-symbols>
                 </div>
                 <div>
                     Type: <span class="mi mi-{{viewerCard.type.toLowerCase()}}"></span>{{viewerCard.type}}
@@ -45,7 +45,7 @@
                     Subtypes: <span ng-repeat="type in viewerCard.subtypes">{{$first ? '' : $last ? ' and ' : ', '}}{{type}}</span>    
                 </div>
                 <div>
-                    Text: <span ng-bind-html="cardText()"></span>
+                    Text: <mana-symbols-text text="viewerCard.text"></mana-symbols-text> 
                 </div>
             </div>
         </div>

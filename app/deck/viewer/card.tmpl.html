@@ -1,4 +1,4 @@
-<md-dialog aria-label="Mango (Fruit)"  ng-cloak>
+<md-dialog aria-label="{{card.name}}">
   <form>
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -27,7 +27,9 @@
                     <b>{{card.name}}</b>
                 </div>
                 <div>
-                    <span ng-repeat="symbol in manaSymbols() track by $index" class="mi mi-mana mi-{{symbol}}"></span>
+                    <div>
+                        <mana-symbols card="card"></mana-symbols>
+                    </div>
                 </div>
                 <div>
                     Type: <span class="mi mi-{{card.type.toLowerCase()}}"></span>{{card.type}}
@@ -36,19 +38,21 @@
                     Subtypes: <span ng-repeat="type in card.subtypes">{{$first ? '' : $last ? ' and ' : ', '}}{{type}}</span>    
                 </div>
                 <div>
-                    Text: <span ng-bind-html="cardText()"></span>
+                    Text: <mana-symbols-text text="card.text"></mana-symbols-text>
                 </div>
             </div>
-            <div ng-if="showBoth()" class="pure-g">
-                <div class="pure-u-1-3">
+            <div ng-if="showBoth()" layout="row" layout-padding>
+                <div>
                     <img ng-src="http://www.mtg-forum.de/db/karten/{{getUnderName()[0]}}/{{getUnderName()}}" style="height: 310px; width:223px;">
                 </div>
-                <div class="pure-u-2-3">
+                <div flex>
                     <div>
                         <b>{{card.name}}</b>
                     </div>
                     <div>
-                        <span ng-repeat="symbol in manaSymbols() track by $index" class="mi mi-mana mi-{{symbol}}"></span>
+                    <div>
+                        <mana-symbols card="card"></mana-symbols>
+                    </div>
                     </div>
                     <div>
                         Type: <span class="mi mi-{{card.type.toLowerCase()}}"></span>{{card.type}}
@@ -57,7 +61,7 @@
                         Subtypes: <span ng-repeat="type in card.subtypes">{{$first ? '' : $last ? ' and ' : ', '}}{{type}}</span>    
                     </div>
                     <div>
-                        Text: <span ng-bind-html="cardText()"></span>
+                        Text: <mana-symbols-text text="card.text"></mana-symbols-text>
                     </div>
                 </div>
             </div>

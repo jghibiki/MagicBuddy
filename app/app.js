@@ -14,6 +14,7 @@ angular.module('magicBuddy', [
   'magicBuddy.selector',
   'magicBuddy.viewer',
   'magicBuddy.services',
+  'magicBuddy.manaSymbols',
   'magicBuddy.manaCurve',
   'magicBuddy.manaDistribution',
   'magicBuddy.manaSourceDistribution',
