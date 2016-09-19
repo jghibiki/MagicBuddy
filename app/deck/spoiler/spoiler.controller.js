@@ -34,6 +34,7 @@ function DeckSpoilerCtrl($stateParams, $scope, deckManager, bsLoadingOverlayServ
         var url = encodeURI(card.name
                 .toLowerCase()
                 .replace(/ /g, "_")
+                .replace(/,_/g, "_")
                 .replace(/\'/g, "")
                 .replace(/-/g, "_")
                 .replace(/\?/g, "")

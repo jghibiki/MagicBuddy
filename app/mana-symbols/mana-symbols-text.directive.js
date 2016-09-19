@@ -27,7 +27,6 @@ function ManaSymbolsTextDirective($compile) {
                     text !== undefined &&
                     text !== ""){
 
-                    console.log(text);
                     text = text.replace(outer.symbolRe, function(x){
                         return '<mana-symbols symbol="' + x.toLowerCase() + '"></mana-symbols>'
                     });
