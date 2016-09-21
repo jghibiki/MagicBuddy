@@ -12,12 +12,15 @@ deckModule.controller('DecksCtrl',  DecksCtrl);
 
 function DecksCtrl($scope, deckManager, bsLoadingOverlayService) {
 
+    var vm = this;
+
+
     // start loader
     bsLoadingOverlayService.start();
     
-    this.name = 'DecksCtrl';
-    this.newDeckName = "";
-    this.deckNames = [];
+    vm.name = 'DecksCtrl';
+    vm.newDeckName = "";
+    vm.deckNames = [];
 
 
     $scope.createDeck = function(){
@@ -32,15 +35,21 @@ function DecksCtrl($scope, deckManager, bsLoadingOverlayService) {
             );
         }
         else{
-            deckManager.create($scope.newDeckName);
+            deckManager.create($scope.newDeckName).promise.then(function(){
+                deckManager.get().promise.then(function(deckNames){
+                    vm.deckNames = deckNames; 
+                    bsLoadingOverlayService.stop();  
+                });
+            })
+
             $scope.newDeckName = "";
         }
     };
 
 	// get list of decks
 	deckManager.get().promise.then(function(deckNames){
-		this.deckNames = deckNames; 
+		vm.deckNames = deckNames; 
 		bsLoadingOverlayService.stop();  
-	}.bind(this));
+	}.bind(vm));
 
 }

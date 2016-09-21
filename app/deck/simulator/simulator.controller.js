@@ -15,7 +15,7 @@ function DeckStartingHandSimCtrl($stateParams, deckManager, $mdDialog, bsLoading
     bsLoadingOverlayService.start();
     var vm = this;
     
-    vm.name = "Editor";
+    vm.name = "Starting Hand";
     vm.deckName = $stateParams.deckName;
     vm.selected = [];
     vm.deckManager = deckManager;
